@@ -11,19 +11,14 @@ void UMinimapWgt::ReleaseSlateResources(bool bReleaseChildren)
 	MinimapWidget.Reset();
 }
 
-void UMinimapWgt::SynchronizeProperties()
-{
-	Super::SynchronizeProperties();
-
-	
-}
 
 TSharedRef<SWidget> UMinimapWgt::RebuildWidget()
 {
-	//return Super::RebuildWidget();
-	MinimapWidget = SNew(SMinimapWidget);
-	MinimapWidget->SetMapPoints(MapCoords);
-	MinimapWidget->SetMapBoxes(MapBoxCoords);
+	
+	MinimapWidget = SNew(SMinimapWidget)
+	.MapBoxes(MapBoxCoords)
+	.MapPoints(MapCoords)
+	;
 
 	return MinimapWidget.ToSharedRef();
 }

@@ -11,6 +11,8 @@ void SRadioButtons::Construct(const FArguments& InArgs)
 {
 
 	OnRadioButtonChanged = InArgs._OnRadioButtonChanged;
+
+	SetRadioButtonsStyle(InArgs._Style);
 	
 	ChildSlot
 	[
@@ -33,14 +35,22 @@ void SRadioButtons::Construct(const FArguments& InArgs)
 	
 }
 
+void SRadioButtons::SetRadioButtonsStyle(const FMySlateStyleStyle* InStyle)
+{
+	CheckBoxStyle = &InStyle->CheckBoxStyle;
+	TextBlockStyle = &InStyle->TextBlockStyle;
+}
+
 TSharedRef<SWidget> SRadioButtons::CreateCheckbox(int32 InIndex, FString InText)
 {
 	return SNew(SCheckBox)
+	.Style(CheckBoxStyle)
 	.IsChecked_Raw(this, &SRadioButtons::IsChecked, InIndex)
 	.OnCheckStateChanged_Raw(this,&SRadioButtons::OnCheckBoxStateChanged, InIndex)
 			[
 				SNew(STextBlock)
 				.Text(FText::FromString(InText))
+				.TextStyle(TextBlockStyle)
 			];
 }
 

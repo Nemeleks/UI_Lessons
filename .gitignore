@@ -1,6 +1,9 @@
 # Visual Studio 2015 user specific files
 .vs/
 
+# Rdier user cpecific files
+.idea/
+
 # Compiled Object files
 *.slo
 *.lo

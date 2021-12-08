@@ -25,7 +25,6 @@ public:
 
 
 protected:
-	virtual void SynchronizeProperties() override;
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 
 private:

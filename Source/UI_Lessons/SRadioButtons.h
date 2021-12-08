@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MySlateStyleWidgetStyle.h"
 #include "Widgets/SCompoundWidget.h"
 
 DECLARE_DELEGATE_OneParam(FOnRadioButtonChanged, int32 /*NewSelectedIndex*/);
@@ -16,12 +17,22 @@ public:
 
 	SLATE_EVENT(FOnRadioButtonChanged, OnRadioButtonChanged);
 
+	SLATE_STYLE_ARGUMENT(FMySlateStyleStyle, Style);
+
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 
 	FOnRadioButtonChanged OnRadioButtonChanged;
+
+	void SetRadioButtonsStyle(const FMySlateStyleStyle* InStyle);
+
+protected:
+
+	const FCheckBoxStyle* CheckBoxStyle = nullptr;
+
+	const FTextBlockStyle* TextBlockStyle = nullptr;
 
 private:
 	TSharedRef<SWidget> CreateCheckbox(int32 InIndex, FString InText);
