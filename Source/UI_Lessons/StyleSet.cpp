@@ -40,6 +40,7 @@ const ISlateStyle& FStyleSet::Get()
 	}
 
 	return *StylePtr;
+	
 }
 
 
