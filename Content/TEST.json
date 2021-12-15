@@ -1,0 +1,98 @@
+[
+	{
+		"Name": "Gold",
+		"ID": "Gold",
+		"Description": "NSLOCTEXT(\"[1C7D89DD453FB196DBF17C85F2CBFB68]\", \"F3F82A2F4877DDCB7CB33DB7EA0D1974\", \"Base In Game Currency\")",
+		"Type": "It_Currency",
+		"Rarity": "Ir_Common",
+		"Icon": "/Engine/EngineResources/AICON-Green.AICON-Green",
+		"Mesh": "None",
+		"Damage": 0,
+		"Armor": 0,
+		"Intelligence": 0
+	},
+	{
+		"Name": "Epic_Staff",
+		"ID": "Epic Staff",
+		"Description": "NSLOCTEXT(\"[1C7D89DD453FB196DBF17C85F2CBFB68]\", \"3DB8AABB41C8EA7EB1A9A28DDBE02227\", \"The Best Weapon In The World\")",
+		"Type": "It_Equipment",
+		"Rarity": "Ir_Epic",
+		"Icon": "/Engine/EngineResources/AICON-Red.AICON-Red",
+		"Mesh": "None",
+		"Damage": 10000,
+		"Armor": 10000,
+		"Intelligence": 10000
+	},
+	{
+		"Name": "Health_Potion",
+		"ID": "Health Potion",
+		"Description": "NSLOCTEXT(\"[1C7D89DD453FB196DBF17C85F2CBFB68]\", \"3081823742C149302A4AB2A9E4BBF6DD\", \"Restore some HP\")",
+		"Type": "It_Consumable",
+		"Rarity": "Ir_Uncommon",
+		"Icon": "/Engine/MobileResources/HUD/AnalogHat.AnalogHat",
+		"Mesh": "None",
+		"Damage": 0,
+		"Armor": 0,
+		"Intelligence": 0
+	},
+	{
+		"Name": "Trash",
+		"ID": "Trash",
+		"Description": "NSLOCTEXT(\"[1C7D89DD453FB196DBF17C85F2CBFB68]\", \"08FBA9754DD74BE748497CA052CD4657\", \"Try to sell this..\")",
+		"Type": "It_Misc",
+		"Rarity": "Ir_Common",
+		"Icon": "/Engine/Tutorial/Mobile/TutorialAssets/android_Icon.android_Icon",
+		"Mesh": "None",
+		"Damage": 0,
+		"Armor": 0,
+		"Intelligence": 0
+	},
+	{
+		"Name": "Mana_Potion",
+		"ID": "Mana Potion",
+		"Description": "Restore Small amount MP",
+		"Type": "It_Consumable",
+		"Rarity": "Ir_Uncommon",
+		"Icon": "/Engine/MobileResources/HUD/AnalogHat.AnalogHat",
+		"Mesh": "None",
+		"Damage": 0,
+		"Armor": 0,
+		"Intelligence": 0
+	},
+	{
+		"Name": "Stamina_Potion",
+		"ID": "Stamina Potion",
+		"Description": "Restore Small amount SP",
+		"Type": "It_Consumable",
+		"Rarity": "Ir_Uncommon",
+		"Icon": "/Engine/MobileResources/HUD/AnalogHat.AnalogHat",
+		"Mesh": "None",
+		"Damage": 0,
+		"Armor": 0,
+		"Intelligence": 0
+	},
+	{
+		"Name": "Bastard_Sword",
+		"ID": "Bastard Sword",
+		"Description": "This is a SWORD",
+		"Type": "It_Equipment",
+		"Rarity": "Ir_Common",
+		"Icon": "/Engine/MobileResources/HUD/AnalogHat.AnalogHat",
+		"Mesh": "None",
+		"Damage": 123,
+		"Armor": 0,
+		"Intelligence": 0
+	},
+	{
+		"Name": "Bow",
+		"ID": "Bow",
+		"Description": "Bow for everyone",
+		"Type": "It_Equipment",
+		"Rarity": "Ir_Common",
+		"Icon": "/Engine/MobileResources/HUD/AnalogHat.AnalogHat",
+		"Mesh": "None",
+		"Damage": 73,
+		"Armor": 0,
+		"Intelligence": 0
+	}
+]
