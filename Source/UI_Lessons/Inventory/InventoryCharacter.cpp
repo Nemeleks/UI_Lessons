@@ -24,7 +24,6 @@ void AInventoryCharacter::BeginPlay()
 
 	if (StartInventory)
 	{
-		TMap<FName, uint8*> StartInventoryMap = StartInventory->GetRowMap();
 		TArray<FInventorySlotInfo*> Slots;
 		StartInventory->GetAllRows<FInventorySlotInfo>("", Slots);
 

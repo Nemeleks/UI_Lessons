@@ -71,6 +71,13 @@ void UInventoryCellWidget::NativeOnDragDetected(const FGeometry& InGeometry, con
 	
 	OutOperation = UWidgetBlueprintLibrary::CreateDragDropOperation(
 		UInventoryDragDropOperation::StaticClass());
+
+	auto* DragVisual = CreateWidget<UInventoryCellWidget>(GetWorld(), DragWidgetClass);
+
+	if (DragVisual && DragVisual->ItemImage)
+	{
+		DragVisual->ItemImage->SetBrushFromTexture(CurrentTexture);
+	}
 	
 	if (OutOperation) 
 	{
@@ -80,7 +87,10 @@ void UInventoryCellWidget::NativeOnDragDetected(const FGeometry& InGeometry, con
 		if (InventoryDragDropOperation)
 		{
 			InventoryDragDropOperation->SourceCell = this;
-		//	InventoryDragDropOperation->DefaultDragVisual = this;
+			InventoryDragDropOperation->Pivot = EDragPivot::MouseDown;
+			InventoryDragDropOperation->DefaultDragVisual = DragVisual;
+			
+			
 		}
 	}
 	

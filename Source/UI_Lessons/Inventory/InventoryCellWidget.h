@@ -14,10 +14,10 @@ class UI_LESSONS_API UInventoryCellWidget : public UUserWidget
 
 protected:
 
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional))
 	class UImage* ItemImage;
 	
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional))
 	class UTextBlock* CountText;
 
 	bool bHasItem;
@@ -27,6 +27,9 @@ protected:
 
 	UPROPERTY()
 	UTexture2D* CurrentTexture;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UInventoryCellWidget> DragWidgetClass;
 
 
 public:
