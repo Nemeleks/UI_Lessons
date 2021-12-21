@@ -17,7 +17,11 @@ public:
 	UEquipInventoryComponent();
 
 	UPROPERTY(EditAnywhere)
-	TMap<int32, EEquipSLot> EquipSlots;
+	TMap<int32, EEquipSlot> EquipSlots;
 
 	virtual int32 GetMaxItemAmount(int32 SlotIndex, const FInventoryItemInfo& InItem) override;
+
+	virtual void SetItem(int32 SlotIndex, const FInventorySlotInfo& Item) override;
+
+	virtual void ClearItem(int32 SlotIndex) override;
 };

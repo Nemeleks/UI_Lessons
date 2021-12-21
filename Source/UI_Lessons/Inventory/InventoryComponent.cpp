@@ -6,11 +6,11 @@
 
 void UInventoryComponent::SetItem(int32 SlotIndex, const FInventorySlotInfo& Item)
 {
-	DeleteItem(SlotIndex);
+	ClearItem(SlotIndex);
 	Items.Add(SlotIndex, Item);
 }
 
-void UInventoryComponent::DeleteItem(int32 SlotIndex)
+void UInventoryComponent::ClearItem(int32 SlotIndex)
 {
 	Items.Remove(SlotIndex);
 }

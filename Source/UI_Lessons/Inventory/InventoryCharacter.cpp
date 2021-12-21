@@ -21,6 +21,42 @@ AInventoryCharacter::AInventoryCharacter()
 
 }
 
+void AInventoryCharacter::EquipItem_Implementation(EEquipSlot Slot, FName ItemID)
+{
+	//IEquipInterface::EquipItem_Implementation(Slot, ItemID);
+
+	UStaticMeshComponent* Comp = GetEquipComponent(Slot);
+
+	if (Comp)
+	{
+		UE_LOG(LogTemp, Error,TEXT("Problem"));
+		auto* Info = LocalInventoryManager->GetItemData(ItemID);
+		if (Info)
+		{
+			Comp->SetStaticMesh(Info->Mesh.LoadSynchronous());
+			Comp->SetHiddenInGame(false);
+		}
+		
+		//LocalArmor += Info.Armor;
+	}
+}
+
+void AInventoryCharacter::UnEquipItem_Implementation(EEquipSlot Slot, FName ItemID)
+{
+	IEquipInterface::UnEquipItem_Implementation(Slot, ItemID);
+
+	 UStaticMeshComponent* Comp = GetEquipComponent(Slot);
+	
+	 if (Comp)
+	 {
+	 	Comp->SetStaticMesh(nullptr);
+	 	Comp->SetHiddenInGame(true);
+	
+	 	//LocalArmor -= Info.Armor;
+	 }
+}
+
+
 void AInventoryCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -38,5 +74,28 @@ void AInventoryCharacter::BeginPlay()
 	
 	LocalInventoryManager->Init(LocalInventory);
 	LocalInventoryManager->InitEquip(EquipInventory);
+}
+
+UStaticMeshComponent* AInventoryCharacter::GetEquipComponent(EEquipSlot EquipSlot)
+{
+	FName Tag;
+
+	switch (EquipSlot)
+	{
+	case EEquipSlot::Es_Head:
+		Tag = "Head";
+		break;
+
+	case EEquipSlot::Es_Body:
+		Tag = "Body";
+		break;
+
+	default:
+		return nullptr;
+	}
+
+	TArray<UActorComponent*> Found = GetComponentsByTag(UStaticMeshComponent::StaticClass(), Tag);
+
+	return Found.Num() > 0 ? Cast<UStaticMeshComponent>(Found[0]) : nullptr; 
 }
 

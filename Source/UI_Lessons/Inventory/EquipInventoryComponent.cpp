@@ -3,20 +3,22 @@
 
 #include "EquipInventoryComponent.h"
 
+#include "EquipInterface.h"
+
 
 UEquipInventoryComponent::UEquipInventoryComponent()
 {
-	EquipSlots.Add(0, EEquipSLot::Es_Head);
-	EquipSlots.Add(1, EEquipSLot::Es_Body);
-	EquipSlots.Add(2, EEquipSLot::Es_LeftHand);
-	EquipSlots.Add(3, EEquipSLot::Es_RightHand);
-	EquipSlots.Add(4, EEquipSLot::Es_Feet);
+	EquipSlots.Add(0, EEquipSlot::Es_Head);
+	EquipSlots.Add(1, EEquipSlot::Es_Body);
+	EquipSlots.Add(2, EEquipSlot::Es_LeftHand);
+	EquipSlots.Add(3, EEquipSlot::Es_RightHand);
+	EquipSlots.Add(4, EEquipSlot::Es_Feet);
 	
 }
 
 int32 UEquipInventoryComponent::GetMaxItemAmount(int32 SlotIndex, const FInventoryItemInfo& InItem)
 {
-	EEquipSLot* EquipSlotPtr = EquipSlots.Find(SlotIndex);
+	EEquipSlot* EquipSlotPtr = EquipSlots.Find(SlotIndex);
 	UE_LOG(LogTemp,Warning,TEXT("OK"));
 
 	if (InItem.Type == EItemType::It_Equipment)
@@ -44,4 +46,45 @@ int32 UEquipInventoryComponent::GetMaxItemAmount(int32 SlotIndex, const FInvento
 	}
 
 	return 0;
+}
+
+void UEquipInventoryComponent::SetItem(int32 SlotIndex, const FInventorySlotInfo& Item)
+{
+	auto* InventoryOwner = GetOwner();
+
+	if (!InventoryOwner->GetClass()->ImplementsInterface(UEquipInterface::StaticClass()))
+	{
+		Super::SetItem(SlotIndex, Item);
+		return;
+	}
+	
+	EEquipSlot EquipSlot = EquipSlots.FindChecked(SlotIndex);
+
+	if (auto* ItemInfo = GetItem(SlotIndex))
+	{
+		IEquipInterface::Execute_UnEquipItem(InventoryOwner, EquipSlot, ItemInfo->ID);
+	}
+	
+	Super::SetItem(SlotIndex, Item);
+
+	IEquipInterface::Execute_EquipItem(InventoryOwner, EquipSlot, Item.ID);
+}
+
+void UEquipInventoryComponent::ClearItem(int32 SlotIndex)
+{
+	auto* InventoryOwner = GetOwner();
+
+	if (!InventoryOwner->GetClass()->ImplementsInterface(UEquipInterface::StaticClass()))
+	{
+		Super::ClearItem(SlotIndex);
+		return;
+	}
+	
+	EEquipSlot EquipSlot = EquipSlots.FindChecked(SlotIndex);
+	if (auto* ItemInfo = GetItem(SlotIndex))
+	{
+		IEquipInterface::Execute_UnEquipItem(InventoryOwner, EquipSlot, ItemInfo->ID);
+	}
+	
+	Super::ClearItem(SlotIndex);
 }

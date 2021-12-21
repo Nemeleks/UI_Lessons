@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EquipInterface.h"
 #include "GameFramework/Character.h"
 #include "InventoryItem.h"
 #include "InventoryCharacter.generated.h"
 
 
 UCLASS()
-class UI_LESSONS_API AInventoryCharacter : public ACharacter
+class UI_LESSONS_API AInventoryCharacter : public ACharacter, public IEquipInterface
 {
 	GENERATED_BODY()
 
@@ -18,6 +19,10 @@ public:
 	AInventoryCharacter();
 
 	void SetClassInventory(UDataTable* InventoryData) {StartInventory = InventoryData;}
+
+	virtual void EquipItem_Implementation(EEquipSlot Slot, FName ItemID) override;
+	
+	virtual void UnEquipItem_Implementation(EEquipSlot Slot, FName ItemID) override;
 
 protected:
 
@@ -34,6 +39,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	UDataTable* StartInventory;
+
+	UStaticMeshComponent* GetEquipComponent(EEquipSlot EquipSlot);
 
 	
 };
