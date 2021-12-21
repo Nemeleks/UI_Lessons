@@ -26,6 +26,9 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly)
 	class UInventoryComponent* LocalInventory;
 
+	UPROPERTY(VisibleDefaultsOnly)
+	class UEquipInventoryComponent* EquipInventory;
+	
 	UPROPERTY(EditDefaultsOnly)
 	class UInventoryManagerComponent* LocalInventoryManager;
 

@@ -21,6 +21,10 @@ public:
 
 	FOnItemDrop OnItemDrop;
 
+	UPROPERTY()
+	class UInventoryComponent* ParentInventory;
+
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
@@ -29,16 +33,18 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UInventoryCellWidget> CellWidgetClass;
 	
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional))
 	class UUniformGridPanel* CellsPanel;
 	
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional))
 	class UInventoryCellWidget* GoldCell;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TArray<class UInventoryCellWidget*> CellWidgets;
 
 	class UInventoryCellWidget* CreateCell();
+
+	void InitCell(UInventoryCellWidget* NewCell);
 
 	void OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To);
 	

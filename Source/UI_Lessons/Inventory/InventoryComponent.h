@@ -26,6 +26,8 @@ public:
 
 	virtual void DeleteItem(int32 SlotIndex);
 
+	virtual int32 GetMaxItemAmount(int32 SlotIndex, const FInventoryItemInfo& InItem);
+
 	const TMap<int32, FInventorySlotInfo>& GetItems() const {return Items;}
 
 	int32 GetItemsNum() const {return Items.Num();}

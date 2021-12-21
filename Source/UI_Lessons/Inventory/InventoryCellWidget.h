@@ -31,6 +31,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UInventoryCellWidget> DragWidgetClass;
 
+	UPROPERTY()
+	class UInventoryWidget*  ParentInventoryWidget;
+
 
 public:
 	bool HasItem() const { return bHasItem; }
@@ -41,9 +44,15 @@ public:
 
 	const FInventorySlotInfo& GetItem() const { return Item; }
 
+	UPROPERTY(EditAnywhere)
 	int32 IndexInInventory = INDEX_NONE;
 
 	FOnItemDrop OnItemDrop;
+
+	UInventoryWidget* GetParentInventoryWidget() const { return ParentInventoryWidget;}
+	void SetParentInventoryWidget(UInventoryWidget* ParentWidget) { ParentInventoryWidget = ParentWidget; }
+
+	class UInventoryComponent* GetParentInventory() const;
 
 protected:
 	

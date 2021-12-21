@@ -24,6 +24,16 @@ enum class EItemRarity : uint8
 	Ir_Epic
 };
 
+UENUM()
+enum class EEquipSLot : uint8
+{
+	Es_Head,
+	Es_Body,
+	Es_LeftHand,
+	Es_RightHand,
+	Es_Feet
+};
+
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnItemDrop, class UInventoryCellWidget* /*from*/, class UInventoryCellWidget* /*to*/)
 
 USTRUCT(BlueprintType)
@@ -47,6 +57,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Type")
 	EItemRarity Rarity;
+
+	UPROPERTY(EditAnywhere, Category = "Type")
+	EEquipSLot EquipSLot;
 
 	UPROPERTY(EditAnywhere, Category = "Visual")
 	TSoftObjectPtr<UTexture2D> Icon;
@@ -73,9 +86,9 @@ struct FInventorySlotInfo : public FTableRowBase
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FName ID = NAME_None;
+	FName ID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int32 Count = INDEX_NONE;
+	int32 Count;
 	
 };

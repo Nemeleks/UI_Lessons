@@ -9,6 +9,11 @@
 void UInventoryWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	for	(auto* Cell : CellWidgets)
+	{
+		InitCell(Cell);
+	}
 }
 
 void UInventoryWidget::Init(int32 ItemsCount)
@@ -77,11 +82,22 @@ UInventoryCellWidget* UInventoryWidget::CreateCell()
 	{
 		auto* Cell = CreateWidget<UInventoryCellWidget>(this, CellWidgetClass);
 		CellWidgets.Add(Cell);
-		Cell->OnItemDrop.AddUObject(this, &UInventoryWidget::OnItemDropFunc);
+		
+		InitCell(Cell);
+		
 		return Cell;
 	}
 	
 	return nullptr;
+}
+
+void UInventoryWidget::InitCell(UInventoryCellWidget* NewCell)
+{
+	if (NewCell)
+	{
+		NewCell->OnItemDrop.AddUObject(this, &UInventoryWidget::OnItemDropFunc);
+		NewCell->SetParentInventoryWidget(this);
+	}
 }
 
 void UInventoryWidget::OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To)

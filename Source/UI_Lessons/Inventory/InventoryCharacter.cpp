@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "InventoryCharacter.h"
+
+#include "EquipInventoryComponent.h"
 #include "InventoryComponent.h"
 #include "InventoryManagerComponent.h"
 
@@ -13,6 +15,7 @@ AInventoryCharacter::AInventoryCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	LocalInventory = CreateDefaultSubobject<UInventoryComponent>("LocalInventory");
+	EquipInventory = CreateDefaultSubobject<UEquipInventoryComponent>("EquipInventory");
 	LocalInventoryManager = CreateDefaultSubobject<UInventoryManagerComponent>("LocalInventoryManager");
 
 
@@ -34,5 +37,6 @@ void AInventoryCharacter::BeginPlay()
 	}
 	
 	LocalInventoryManager->Init(LocalInventory);
+	LocalInventoryManager->InitEquip(EquipInventory);
 }
 

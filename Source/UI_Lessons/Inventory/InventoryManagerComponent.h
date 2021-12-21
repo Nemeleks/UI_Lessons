@@ -19,24 +19,37 @@ public:
 
 	void Init(UInventoryComponent* InInventoryComponent);
 
+	void InitEquip(UInventoryComponent* InInventoryComponent);
+
 	const FInventoryItemInfo* GetItemData(const FName& InID) const;
 
 protected:
 
 	UPROPERTY()
 	UInventoryComponent* LocalInventoryComponent;
+	
 
 	UPROPERTY(EditAnywhere)
 	UDataTable* ItemsData;
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class UInventoryWidget>  InventoryWidgetClass;
-
+	
 	UPROPERTY(EditAnywhere)
 	int32 MinInventorySize = 20;
 
 	UPROPERTY()
 	class UInventoryWidget* InventoryWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UInventoryWidget>  InventoryWidgetClass;
+
+	UPROPERTY()
+	class UInventoryWidget* EquipWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UInventoryWidget>  EquipWidgetClass;
+
+
+
 
 	void OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To);
 };

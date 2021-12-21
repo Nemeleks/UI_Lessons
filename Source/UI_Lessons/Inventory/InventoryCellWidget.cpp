@@ -3,6 +3,7 @@
 
 #include "InventoryCellWidget.h"
 #include "InventoryDragDropOperation.h"
+#include "InventoryWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
@@ -53,6 +54,11 @@ void UInventoryCellWidget::Clear()
 	Item = FInventorySlotInfo();
 }
 
+UInventoryComponent* UInventoryCellWidget::GetParentInventory() const
+{
+	return ParentInventoryWidget ? ParentInventoryWidget->ParentInventory : nullptr;
+}
+
 FReply UInventoryCellWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 
@@ -87,7 +93,6 @@ void UInventoryCellWidget::NativeOnDragDetected(const FGeometry& InGeometry, con
 		if (InventoryDragDropOperation)
 		{
 			InventoryDragDropOperation->SourceCell = this;
-			InventoryDragDropOperation->Pivot = EDragPivot::MouseDown;
 			InventoryDragDropOperation->DefaultDragVisual = DragVisual;
 			
 			

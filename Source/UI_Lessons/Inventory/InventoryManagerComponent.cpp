@@ -3,6 +3,7 @@
 
 #include "InventoryManagerComponent.h"
 
+#include "EquipInventoryComponent.h"
 #include "InventoryCellWidget.h"
 #include "InventoryWidget.h"
 
@@ -22,6 +23,7 @@ void UInventoryManagerComponent::Init(UInventoryComponent* InInventoryComponent)
 
 		InventoryWidget = CreateWidget<UInventoryWidget>(GetWorld(), InventoryWidgetClass);
 		InventoryWidget->AddToViewport();
+		InventoryWidget->ParentInventory = InInventoryComponent;
 
 		InventoryWidget->Init(FMath::Max(MinInventorySize, LocalInventoryComponent->GetItemsNum()));
 		InventoryWidget->OnItemDrop.AddUObject(this, &UInventoryManagerComponent::OnItemDropFunc);
@@ -37,6 +39,17 @@ void UInventoryManagerComponent::Init(UInventoryComponent* InInventoryComponent)
 	}
 }
 
+void UInventoryManagerComponent::InitEquip(UInventoryComponent* InInventoryComponent)
+{
+	if (InInventoryComponent && EquipWidgetClass)
+	{
+		EquipWidget = CreateWidget<UInventoryWidget>(GetWorld(),EquipWidgetClass);
+		EquipWidget->ParentInventory = InInventoryComponent;
+		EquipWidget->OnItemDrop.AddUObject(this, &UInventoryManagerComponent::OnItemDropFunc);
+		EquipWidget->AddToViewport();
+	}
+}
+
 const FInventoryItemInfo* UInventoryManagerComponent::GetItemData(const FName& InID) const
 {
 	return ItemsData ? ItemsData->FindRow<FInventoryItemInfo>(InID,"") : nullptr;
@@ -44,20 +57,90 @@ const FInventoryItemInfo* UInventoryManagerComponent::GetItemData(const FName& I
 
 void UInventoryManagerComponent::OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To)
 {
-	FInventorySlotInfo FromItem = From->GetItem();
-	FInventorySlotInfo ToItem = To->GetItem();
-
-	From->Clear();
-	To->Clear();
-	
-	To->AddItem(FromItem, *GetItemData(FromItem.ID));
-
-	if (!ToItem.ID.IsNone())
+	if (From == nullptr || To == nullptr)
 	{
-		From->AddItem(ToItem, *GetItemData(ToItem.ID));
+		return;
 	}
 
+	auto* FromInventory = From->GetParentInventory();
+	auto* ToInventory = To->GetParentInventory();
+
+	if (FromInventory == nullptr || ToInventory == nullptr)
+	{
+		return;
+	}
+
+	const FInventorySlotInfo FromItem = From->GetItem();
+	if (FromItem.Count == 0)
+	{
+		return;
+	}
 	
+	const FInventorySlotInfo ToItem = To->GetItem();
+
+	const FInventoryItemInfo* FromInfo = GetItemData(FromItem.ID);
+	const FInventoryItemInfo* ToInfo = ToItem.Count > 0 ? GetItemData(ToItem.ID) : nullptr;
+	
+	const int32 ToItemAmount = ToInventory->GetMaxItemAmount(To->IndexInInventory, *FromInfo);
+	
+	UE_LOG(LogTemp, Warning, TEXT("ToItemAmount = %d"), ToItemAmount);
+	
+	if (ToItemAmount == 0 )
+	{
+		return;
+	}
+	
+	FInventorySlotInfo NewFromItem = ToItem;
+	FInventorySlotInfo NewToItem = FromItem;
+
+	if (ToItemAmount > 0)
+	{
+		if (NewFromItem.ID == NewToItem.ID)
+		{
+			NewToItem.Count = FMath::Max(ToItemAmount, FromItem.Count);
+			if (FromItem.Count <= NewToItem.Count)
+			{
+				NewFromItem.ID = NewToItem.ID;
+				NewFromItem.Count = FromItem.Count - NewToItem.Count;
+			}
+		}
+
+	}
+
+
+	const FInventoryItemInfo* NewFromInfo = NewFromItem.Count > 0 ? GetItemData(NewFromItem.ID) : nullptr;
+	const FInventoryItemInfo* NewToInfo = GetItemData(NewToItem.ID);
+
+	if (Cast<UEquipInventoryComponent>(From->GetParentInventory()) && NewFromInfo)
+	{
+		if (NewToInfo->Type == EItemType::It_Equipment && NewToInfo->EquipSLot == NewFromInfo->EquipSLot)
+		{
+			From->Clear();
+			From->AddItem(NewFromItem, *NewFromInfo);
+
+			To->Clear();
+			To->AddItem(NewToItem, *NewToInfo);
+
+			FromInventory->SetItem(From->IndexInInventory, NewFromItem);
+			ToInventory->SetItem(To->IndexInInventory, NewToItem);
+		} 
+	}
+	else
+	{
+		From->Clear();
+		if (NewFromInfo)
+		{
+			From->AddItem(NewFromItem, *NewFromInfo);
+		}
+
+		To->Clear();
+		To->AddItem(NewToItem, *NewToInfo);
+
+		FromInventory->SetItem(From->IndexInInventory, NewFromItem);
+		ToInventory->SetItem(To->IndexInInventory, NewToItem);
+	}
+	
+
 }
 
 
