@@ -3,6 +3,8 @@
 
 #include "InventoryManagerComponent.h"
 
+#include <ThirdParty/FreeImage/FreeImage-3.18.0/Dist/FreeImage.h>
+
 #include "EquipInventoryComponent.h"
 #include "InventoryCellWidget.h"
 #include "InventoryWidget.h"
@@ -84,7 +86,7 @@ void UInventoryManagerComponent::OnItemDropFunc(UInventoryCellWidget* From, UInv
 		return;
 	}
 	
-	const FInventorySlotInfo ToItem = To->GetItem();
+	FInventorySlotInfo ToItem = To->GetItem();
 
 	const FInventoryItemInfo* FromInfo = GetItemData(FromItem.ID);
 	const FInventoryItemInfo* ToInfo = ToItem.Count > 0 ? GetItemData(ToItem.ID) : nullptr;
@@ -93,13 +95,22 @@ void UInventoryManagerComponent::OnItemDropFunc(UInventoryCellWidget* From, UInv
 	
 	UE_LOG(LogTemp, Warning, TEXT("ToItemAmount = %d"), ToItemAmount);
 	
+		FInventorySlotInfo NewFromItem = ToItem;
+    	FInventorySlotInfo NewToItem = FromItem;
+	
 	if (ToItemAmount == 0 )
 	{
+		ToItem.Count += FromItem.Count;
+
+		From->Clear();
+
+		To->Clear();
+		To->AddItem(ToItem, *ToInfo);
+
+		FromInventory->SetItem(From->IndexInInventory, FromItem);
+		ToInventory->SetItem(To->IndexInInventory, ToItem);
 		return;
 	}
-	
-	FInventorySlotInfo NewFromItem = ToItem;
-	FInventorySlotInfo NewToItem = FromItem;
 
 	if (ToItemAmount > 0)
 	{
@@ -112,7 +123,11 @@ void UInventoryManagerComponent::OnItemDropFunc(UInventoryCellWidget* From, UInv
 				NewFromItem.Count = FromItem.Count - NewToItem.Count;
 			}
 		}
-
+		else if (!ToInfo)
+		{
+			UE_LOG(LogTemp,Error, TEXT("ProblemHere"));
+			
+		}
 	}
 
 
