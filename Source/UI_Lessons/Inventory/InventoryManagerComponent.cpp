@@ -55,6 +55,14 @@ const FInventoryItemInfo* UInventoryManagerComponent::GetItemData(const FName& I
 	return ItemsData ? ItemsData->FindRow<FInventoryItemInfo>(InID,"") : nullptr;
 }
 
+void UInventoryManagerComponent::DeInit()
+{
+	if (InventoryWidget)
+	{
+		InventoryWidget->RemoveFromParent();
+	}
+}
+
 void UInventoryManagerComponent::OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To)
 {
 	if (From == nullptr || To == nullptr)

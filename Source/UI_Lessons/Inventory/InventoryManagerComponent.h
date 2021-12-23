@@ -23,6 +23,8 @@ public:
 
 	const FInventoryItemInfo* GetItemData(const FName& InID) const;
 
+	void DeInit();
+
 protected:
 
 	UPROPERTY()
