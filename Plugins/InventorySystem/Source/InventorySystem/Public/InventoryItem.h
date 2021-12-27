@@ -85,10 +85,10 @@ struct FInventorySlotInfo : public FTableRowBase
 
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "General")
 	FName ID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "General")
 	int32 Count;
 	
 };

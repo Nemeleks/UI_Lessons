@@ -16,7 +16,7 @@ class INVENTORYSYSTEM_API UEquipInventoryComponent : public UInventoryComponent
 public:
 	UEquipInventoryComponent();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "EquipInventoryComponent")
 	TMap<int32, EEquipSlot> EquipSlots;
 
 	virtual int32 GetMaxItemAmount(int32 SlotIndex, const FInventoryItemInfo& InItem) override;

@@ -14,24 +14,24 @@ class INVENTORYSYSTEM_API UInventoryCellWidget : public UUserWidget
 
 protected:
 
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional), Category = "CellWidget")
 	class UImage* ItemImage;
 	
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional), Category = "CellWidget")
 	class UTextBlock* CountText;
 
 	bool bHasItem;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "CellWidget")
 	FInventorySlotInfo Item;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "CellWidget")
 	UTexture2D* CurrentTexture;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "CellWidget")
 	TSubclassOf<UInventoryCellWidget> DragWidgetClass;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "CellWidget")
 	class UInventoryWidget*  ParentInventoryWidget;
 
 
@@ -44,7 +44,7 @@ public:
 
 	const FInventorySlotInfo& GetItem() const { return Item; }
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "CellWidget")
 	int32 IndexInInventory = INDEX_NONE;
 
 	FOnItemDrop OnItemDrop;
@@ -63,6 +63,6 @@ protected:
 
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "CellWidget")
 	bool bCanDrag = true;
 };

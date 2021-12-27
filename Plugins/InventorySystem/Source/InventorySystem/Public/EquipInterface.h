@@ -24,9 +24,9 @@ class INVENTORYSYSTEM_API IEquipInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Equipment")
 	void EquipItem(EEquipSlot Slot, FName ItemID);
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Equipment")
 	void UnEquipItem(EEquipSlot Slot, FName ItemID);
 };

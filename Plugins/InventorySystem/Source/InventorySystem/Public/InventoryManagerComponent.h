@@ -27,27 +27,27 @@ public:
 
 protected:
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "InventoryManager")
 	UInventoryComponent* LocalInventoryComponent;
 	
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "InventoryManager")
 	UDataTable* ItemsData;
 
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "InventoryManager")
 	int32 MinInventorySize = 20;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "InventoryManager")
 	class UInventoryWidget* InventoryWidget;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "InventoryManager")
 	TSubclassOf<class UInventoryWidget>  InventoryWidgetClass;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "InventoryManager")
 	class UInventoryWidget* EquipWidget;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "InventoryManager")
 	TSubclassOf<class UInventoryWidget>  EquipWidgetClass;
 
 

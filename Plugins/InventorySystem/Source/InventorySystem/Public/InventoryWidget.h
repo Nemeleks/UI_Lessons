@@ -21,25 +21,25 @@ public:
 
 	FOnItemDrop OnItemDrop;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "InventoryWidget")
 	class UInventoryComponent* ParentInventory;
 
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "InventoryWidget")
 	int32 ItemsInRow = 5;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "InventoryWidget")
 	TSubclassOf<class UInventoryCellWidget> CellWidgetClass;
 	
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional), Category = "InventoryWidget")
 	class UUniformGridPanel* CellsPanel;
 	
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional), Category = "InventoryWidget")
 	class UInventoryCellWidget* GoldCell;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget")
 	TArray<class UInventoryCellWidget*> CellWidgets;
 
 	class UInventoryCellWidget* CreateCell();

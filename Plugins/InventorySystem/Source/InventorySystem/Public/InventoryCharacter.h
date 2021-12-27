@@ -28,16 +28,16 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleDefaultsOnly)
+	UPROPERTY(VisibleDefaultsOnly, Category = "InventoryCharacter")
 	class UInventoryComponent* LocalInventory;
 
-	UPROPERTY(VisibleDefaultsOnly)
+	UPROPERTY(VisibleDefaultsOnly, Category = "InventoryCharacter")
 	class UEquipInventoryComponent* EquipInventory;
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "InventoryCharacter")
 	class UInventoryManagerComponent* LocalInventoryManager;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "InventoryCharacter")
 	UDataTable* StartInventory;
 
 	UStaticMeshComponent* GetEquipComponent(EEquipSlot EquipSlot);

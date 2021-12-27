@@ -15,7 +15,7 @@ class INVENTORYSYSTEM_API UInventoryComponent : public UActorComponent
 
 protected:
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "InventoryItems")
 	TMap<int32, FInventorySlotInfo> Items;
 
 public:
