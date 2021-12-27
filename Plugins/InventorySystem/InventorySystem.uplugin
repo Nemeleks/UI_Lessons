@@ -4,7 +4,7 @@
 	"VersionName": "1.0",
 	"FriendlyName": "InventorySystem",
 	"Description": "",
-	"Category": "Other",
+	"Category": "Inventory",
 	"CreatedBy": "Nemeleks",
 	"CreatedByURL": "",
 	"DocsURL": "",
@@ -18,7 +18,13 @@
 		{
 			"Name": "InventorySystem",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms" :
+			[
+				"Win64",
+				"Win32",
+				"Android"
+			]
 		}
 	]
 }
