@@ -24,6 +24,8 @@ public:
 	
 	virtual void UnEquipItem_Implementation(EEquipSlot Slot, FName ItemID) override;
 
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -42,5 +44,9 @@ protected:
 
 	UStaticMeshComponent* GetEquipComponent(EEquipSlot EquipSlot);
 
+	void OpenCloseInventory();
+
 	
 };
+
+

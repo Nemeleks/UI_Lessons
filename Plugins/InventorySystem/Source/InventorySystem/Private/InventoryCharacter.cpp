@@ -56,6 +56,15 @@ void AInventoryCharacter::UnEquipItem_Implementation(EEquipSlot Slot, FName Item
 	 }
 }
 
+void AInventoryCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	if (PlayerInputComponent)
+	{
+		PlayerInputComponent->BindAction("InventoryKey", IE_Pressed, this, &ThisClass::OpenCloseInventory);
+	}
+}
+
 
 void AInventoryCharacter::BeginPlay()
 {
@@ -72,8 +81,20 @@ void AInventoryCharacter::BeginPlay()
 		}
 	}
 	
-	LocalInventoryManager->Init(LocalInventory);
-	LocalInventoryManager->InitEquip(EquipInventory);
+
+}
+
+void AInventoryCharacter::OpenCloseInventory()
+{
+	if (LocalInventoryManager->IsInitialized())
+	{
+		LocalInventoryManager->DeInit();
+	}
+	else
+	{
+		LocalInventoryManager->Init(LocalInventory);
+		LocalInventoryManager->InitEquip(EquipInventory);
+	}
 }
 
 UStaticMeshComponent* AInventoryCharacter::GetEquipComponent(EEquipSlot EquipSlot)

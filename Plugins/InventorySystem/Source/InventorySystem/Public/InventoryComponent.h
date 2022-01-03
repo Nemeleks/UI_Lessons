@@ -31,4 +31,5 @@ public:
 	const TMap<int32, FInventorySlotInfo>& GetItems() const {return Items;}
 
 	int32 GetItemsNum() const {return Items.Num();}
+	
 };

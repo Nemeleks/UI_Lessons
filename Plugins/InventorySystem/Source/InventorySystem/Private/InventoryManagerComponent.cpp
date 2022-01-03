@@ -25,6 +25,7 @@ void UInventoryManagerComponent::Init(UInventoryComponent* InInventoryComponent)
 
 		InventoryWidget = CreateWidget<UInventoryWidget>(GetWorld(), InventoryWidgetClass);
 		InventoryWidget->AddToViewport();
+		bIsInventoryWidget = true;
 		InventoryWidget->ParentInventory = InInventoryComponent;
 
 		InventoryWidget->Init(FMath::Max(MinInventorySize, LocalInventoryComponent->GetItemsNum()));
@@ -49,6 +50,7 @@ void UInventoryManagerComponent::InitEquip(UInventoryComponent* InInventoryCompo
 		EquipWidget->ParentInventory = InInventoryComponent;
 		EquipWidget->OnItemDrop.AddUObject(this, &UInventoryManagerComponent::OnItemDropFunc);
 		EquipWidget->AddToViewport();
+		bIsEquipWidget = true;
 	}
 }
 
@@ -62,7 +64,26 @@ void UInventoryManagerComponent::DeInit()
 	if (InventoryWidget)
 	{
 		InventoryWidget->RemoveFromParent();
+		bIsInventoryWidget = false;
+		if (EquipWidget)
+		{
+			EquipWidget->RemoveFromParent();
+			bIsEquipWidget = false;
+		}
 	}
+	
+}
+
+bool UInventoryManagerComponent::IsInitialized()
+{
+	if (bIsEquipWidget && bIsInventoryWidget)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("IsInitialized"));
+		return true;
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Is NOT Initialized"));
+	return false;
 }
 
 void UInventoryManagerComponent::OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To)

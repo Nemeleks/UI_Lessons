@@ -25,6 +25,8 @@ public:
 
 	void DeInit();
 
+	bool IsInitialized();
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "InventoryManager")
@@ -49,9 +51,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "InventoryManager")
 	TSubclassOf<class UInventoryWidget>  EquipWidgetClass;
-
-
-
-
+	
 	void OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To);
+
+private:
+	bool bIsInventoryWidget = false;
+	bool bIsEquipWidget = false;
 };
