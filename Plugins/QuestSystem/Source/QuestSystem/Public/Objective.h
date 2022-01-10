@@ -80,13 +80,10 @@ public:
 	virtual void ActivateObjective(AActor* Instigator) override;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UInterface> CollectableInterface;
-
-	UPROPERTY(EditAnywhere, meta = (AllowedClasses = "CollectableObject"))
-	TSubclassOf<AActor> CollectableClass;
+	TSubclassOf<AActor> CollectableActorClass;
 	
 	UPROPERTY(EditAnywhere)
-	int32 CollectionNeeded = 0;
+	int32 CountToCollect = 0;
 
 	UPROPERTY(VisibleAnywhere)
 	int32 CollectionCount = 0;

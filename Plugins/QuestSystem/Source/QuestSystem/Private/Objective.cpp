@@ -64,7 +64,8 @@ void UCollectionObjective::ActivateObjective(AActor* Instigator)
 {
 	Super::ActivateObjective(Instigator);
 	TArray<AActor*> ActorsToCollect;
-	UGameplayStatics::GetAllActorsWithInterface(GetWorld(), CollectableInterface, ActorsToCollect);
+//	UGameplayStatics::GetAllActorsWithInterface(GetWorld(), CollectableInterface, ActorsToCollect);
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), CollectableActorClass, ActorsToCollect);
 	//CollectionNeeded = ActorsToCollect.Num();
 
 	for	(int32 i = 0; i < ActorsToCollect.Num(); i++)
@@ -76,7 +77,7 @@ void UCollectionObjective::ActivateObjective(AActor* Instigator)
 			{
 				CollectionCount++;
 				UE_LOG(LogTemp, Warning, TEXT("Count = %d"), CollectionCount);
-				if (bCanBeCompleted && Instigator == InteractInstigator && CollectionCount == CollectionNeeded)
+				if (bCanBeCompleted && Instigator == InteractInstigator && CollectionCount == CountToCollect)
 				{
 					bIsCompleted = true;
 					OnObjectiveCompleted.Broadcast(this);

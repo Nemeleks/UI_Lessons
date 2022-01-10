@@ -39,6 +39,7 @@ public class QuestSystem : ModuleRules
 				"Slate",
 				"SlateCore",
 				"UMG",
+				"ClassViewer",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
