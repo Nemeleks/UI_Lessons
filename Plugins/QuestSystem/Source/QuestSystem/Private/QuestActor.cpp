@@ -63,7 +63,29 @@ void AQuestActor::OnObjectiveCompleted(UObjective* Objective)
 		{
 			Objectives[Index+1]->bCanBeCompleted = true;
 		}
+		else
+		{
+			bIsCompleted = true;
+		}
 	}
+	else
+	{
+		int32 IncompleteCount = 0;
+		for	(int32 i = 0; i < Objectives.Num(); i++)
+		{
+			if (!Objectives[i]->bIsCompleted)
+			{
+				IncompleteCount++;
+				break;
+			}
+		}
+		if (IncompleteCount == 0)
+		{
+			bIsCompleted = true;
+		}
+	}
+
+	OnQuestStatusUpdated.Broadcast(this);
 }
 
 

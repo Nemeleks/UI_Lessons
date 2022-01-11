@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "QuestActor.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnQuestStatusUpdated, AQuestActor*)
+
 class UObjective;
 
 UCLASS()
@@ -34,6 +36,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	TArray<UObjective*> Objectives;
 
+	TArray<UObjective*> GetObjectives () const {return Objectives;}
+
 	UPROPERTY(EditAnywhere)
 	bool bIsStoryQuest = true;
 
@@ -46,10 +50,17 @@ public:
 	UPROPERTY(EditAnywhere)
 	bool bIsTaken = false;
 
+	UPROPERTY(EditAnywhere)
+	bool bIsCompleted = false;
+
 	UFUNCTION()
 	void TakeQuest(AActor* Character);
 
 	void OnObjectiveCompleted(UObjective* Objective);
+
+	bool IsStoryQuest() const {return bIsStoryQuest;}
+
+	FOnQuestStatusUpdated OnQuestStatusUpdated;
 
 #if WITH_EDITOR
 
