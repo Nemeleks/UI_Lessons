@@ -12,7 +12,7 @@ class UQuestList;
 class UQuestListComponent;
 
 UCLASS()
-class QUESTSYSTEM_API AQuestSystemCharacter : public ACharacter, public IInteractableObject
+class QUESTSYSTEM_API AQuestSystemCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -23,9 +23,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "QuestSystem")
-	TSubclassOf<UQuestDialog> QuestDialogClass;
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleQuestListVisibility();
@@ -46,5 +43,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual void Interact_Implementation(AActor* InteractInstigator) override;
+	
 };

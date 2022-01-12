@@ -6,7 +6,7 @@
 AUIPlayerController::AUIPlayerController(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	bShowMouseCursor = true;
+
 	bEnableClickEvents = true;
 }
 

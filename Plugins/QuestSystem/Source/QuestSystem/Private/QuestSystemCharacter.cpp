@@ -34,6 +34,7 @@ void AQuestSystemCharacter::ToggleQuestListVisibility()
 		QuestList->RemoveFromParent();
 		QuestList = nullptr;
 		UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
+		PlayerController->SetShowMouseCursor(false);
 	}
 	else
 	{
@@ -60,54 +61,4 @@ void AQuestSystemCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AQuestSystemCharacter::Interact_Implementation(AActor* InteractInstigator)
-{
-	IInteractableObject::Interact_Implementation(InteractInstigator);
-
-	if (InteractInstigator)
-	{
-		UActorComponent* ActorQuestListComp = InteractInstigator->GetComponentByClass(UQuestListComponent::StaticClass());
-
-		if (ActorQuestListComp)
-		{
-			auto* ActorQuestList = Cast<UQuestListComponent>(ActorQuestListComp);
-
-			TArray<AActor*> AttachedActors;
-			GetAttachedActors(AttachedActors);
-			bool bHasQuestsAvailable = false;
-
-			for (AActor* Actor : AttachedActors)
-			{
-				if (AQuestActor* Quest = Cast<AQuestActor>(Actor))
-				{
-					if (Quest->bIsTaken || Quest->PreviousQuest && !Quest->PreviousQuest->bIsCompleted)
-					{
-						continue;
-					}
-
-					if (QuestDialogClass)
-					{
-						UQuestDialog* QuestDialog = CreateWidget<UQuestDialog>(GetWorld(), QuestDialogClass);
-						QuestDialog->Init(Quest);
-						QuestDialog->OnQuestAccepted.BindUObject(ActorQuestList, &UQuestListComponent::AddQuest, Quest);
-						QuestDialog->OnQuestQuited.BindLambda([this, InteractInstigator]()
-						{
-							NotifyInteractionFinished(this, InteractInstigator);	
-						}
-						);
-						QuestDialog->AddToViewport();
-					}
-
-					bHasQuestsAvailable = true;
-				}
-
-			}
-
-			if (!bHasQuestsAvailable)
-			{
-				NotifyInteractionFinished(this, InteractInstigator);
-			}
-		}
-	}
-}
 

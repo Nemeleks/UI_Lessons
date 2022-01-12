@@ -18,11 +18,11 @@ void AQuestActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AActor* ParentActor = GetAttachParentActor();
-	if (ParentActor)
-	{
-		TakeQuest(ParentActor);
-	}
+	// AActor* ParentActor = GetAttachParentActor();
+	// if (ParentActor)
+	// {
+	// 	TakeQuest(ParentActor);
+	// }
 	
 }
 
