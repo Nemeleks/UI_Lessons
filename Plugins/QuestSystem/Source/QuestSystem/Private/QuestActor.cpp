@@ -4,6 +4,7 @@
 #include "QuestActor.h"
 
 #include "Objective.h"
+#include "QuestGiverActor.h"
 
 
 // Sets default values
@@ -18,11 +19,15 @@ void AQuestActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// AActor* ParentActor = GetAttachParentActor();
-	// if (ParentActor)
-	// {
-	// 	TakeQuest(ParentActor);
-	// }
+	if (PreviousQuest)
+	{
+		auto* Parent = GetAttachParentActor();
+		if (auto* QuestGiver = Cast<AQuestGiverActor>(Parent))
+		{
+			PreviousQuest->OnQuestCompleted.AddDynamic(QuestGiver, &AQuestGiverActor::HasAvailableQuests);
+		}
+		
+	}
 	
 }
 
@@ -66,6 +71,7 @@ void AQuestActor::OnObjectiveCompleted(UObjective* Objective)
 		else
 		{
 			bIsCompleted = true;
+			OnQuestCompleted.Broadcast();
 		}
 	}
 	else
@@ -82,10 +88,25 @@ void AQuestActor::OnObjectiveCompleted(UObjective* Objective)
 		if (IncompleteCount == 0)
 		{
 			bIsCompleted = true;
+			OnQuestCompleted.Broadcast();
 		}
 	}
 
 	OnQuestStatusUpdated.Broadcast(this);
+}
+
+bool AQuestActor::IsAvailable()
+{
+	if (!bIsTaken && !bIsCompleted && !PreviousQuest)
+	{
+		return true;
+	}
+	if (!bIsTaken && !bIsCompleted && PreviousQuest && PreviousQuest->bIsCompleted)
+	{
+		return true;
+	}
+		return false;
+
 }
 
 

@@ -6,7 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "QuestActor.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnQuestStatusUpdated, AQuestActor*)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnQuestStatusUpdated, AQuestActor*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnQuestCompleted);
 
 class UObjective;
 
@@ -60,7 +61,11 @@ public:
 
 	bool IsStoryQuest() const {return bIsStoryQuest;}
 
+	bool IsAvailable();
+
 	FOnQuestStatusUpdated OnQuestStatusUpdated;
+
+	FOnQuestCompleted OnQuestCompleted;
 
 #if WITH_EDITOR
 
