@@ -16,8 +16,14 @@ AQuestGiverActor::AQuestGiverActor()
 	StaticMeshChar = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CharMesh"));
 	StaticMeshChar->SetupAttachment(RootComponent);
 
-	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	StaticMesh->SetupAttachment(StaticMeshChar);
+	StaticMeshAvailableQuest = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshAvailableQuest"));
+	StaticMeshAvailableQuest->SetupAttachment(StaticMeshChar);
+	
+	StaticMeshTakenQuest = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshTakenQuest"));
+	StaticMeshTakenQuest->SetupAttachment(StaticMeshChar);
+    	
+	StaticMeshCompletedQuest = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComplitedQuest"));
+	StaticMeshCompletedQuest->SetupAttachment(StaticMeshChar);
 	
 }
 
@@ -33,12 +39,12 @@ void AQuestGiverActor::BeginPlay()
 		{
 			if (Quest)
 			{
-				Quest->OnQuestCompleted.AddDynamic(this, &ThisClass::AQuestGiverActor::HasAvailableQuests);
+				Quest->OnQuestStatusChanged.AddDynamic(this, &ThisClass::AQuestGiverActor::HasAvailableQuests);
 			}
 		}
 	}
 
-	if (StaticMesh)
+	if (StaticMeshAvailableQuest)
 	{
 		HasAvailableQuests();
 	}
@@ -48,11 +54,11 @@ void AQuestGiverActor::BeginPlay()
 
 void AQuestGiverActor::SinusoidMovement(float DeltaSeconds)
 {
-		float CurrentZ = StaticMesh->GetRelativeLocation().Z;
+		float CurrentZ = StaticMeshAvailableQuest->GetRelativeLocation().Z;
 		TimeCount+= DeltaSeconds * Speed;
 		Theta = FMath::Sin(TimeCount);
 		float NewZ = Theta * Amplitude + CurrentZ;
-		StaticMesh->SetRelativeLocation(FVector(0.f,0.f, NewZ));
+		StaticMeshAvailableQuest->SetRelativeLocation(FVector(0.f,0.f, NewZ));
 }
 
 void AQuestGiverActor::HasAvailableQuests()
@@ -61,15 +67,35 @@ void AQuestGiverActor::HasAvailableQuests()
 	{
 		if (AQuestActor* Quest = Cast<AQuestActor>(Actor))
 		{
+			if (Quest && Quest->bIsTaken && !Quest->bIsCompleted)
+			{
+				bHasAvailableQuest = false;
+				StaticMeshAvailableQuest->SetVisibility(false);
+				StaticMeshCompletedQuest->SetVisibility(false);
+				StaticMeshTakenQuest->SetVisibility(true);
+				return;
+			}
+			if (Quest && Quest->bIsCompleted)
+			{
+				bHasAvailableQuest = false;
+				StaticMeshAvailableQuest->SetVisibility(false);
+				StaticMeshCompletedQuest->SetVisibility(true);
+				StaticMeshTakenQuest->SetVisibility(false);
+				return;
+			}
 			if (Quest && Quest->IsAvailable())
 			{
 				bHasAvailableQuest = true;
-				StaticMesh->SetVisibility(true);
+				StaticMeshAvailableQuest->SetVisibility(true);
+				StaticMeshCompletedQuest->SetVisibility(false);
+				StaticMeshTakenQuest->SetVisibility(false);
 				return;
 			}
 			
-				bHasAvailableQuest = false;
-				StaticMesh->SetVisibility(false);
+			bHasAvailableQuest = false;
+			StaticMeshAvailableQuest->SetVisibility(false);
+			StaticMeshCompletedQuest->SetVisibility(false);
+			StaticMeshTakenQuest->SetVisibility(false);
 			
 		}
 	}
@@ -144,9 +170,9 @@ void AQuestGiverActor::Interact_Implementation(AActor* InteractInstigator)
 
 void AQuestGiverActor::SetTickAndVisibility(bool HasAvailableQuest)
 {
-	if (StaticMesh)
+	if (StaticMeshAvailableQuest)
 	{
-		StaticMesh->SetVisibility(HasAvailableQuest);
+		StaticMeshAvailableQuest->SetVisibility(HasAvailableQuest);
 	}
 	bHasAvailableQuest = HasAvailableQuest;
 }

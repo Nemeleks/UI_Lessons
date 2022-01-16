@@ -26,7 +26,13 @@ protected:
 	UStaticMeshComponent* StaticMeshChar;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
-	UStaticMeshComponent* StaticMesh;
+	UStaticMeshComponent* StaticMeshAvailableQuest;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
+	UStaticMeshComponent* StaticMeshTakenQuest;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
+	UStaticMeshComponent* StaticMeshCompletedQuest;
 	
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "QuestSystem")

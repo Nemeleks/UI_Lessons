@@ -37,7 +37,7 @@ void UQuestListComponent::AddQuest(AQuestActor* Quest)
 	{
 		AcceptedQuests.AddUnique(Quest);
 		Quest->TakeQuest(GetOwner());
-		Quest->OnQuestStatusUpdated.AddLambda([this](AQuestActor* QuestActor)
+		Quest->OnQuestObjectiveStatusChanged.AddLambda([this](AQuestActor* QuestActor)
 		{
 			if (ActiveQuest == QuestActor)
 			{

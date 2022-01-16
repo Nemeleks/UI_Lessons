@@ -24,7 +24,7 @@ void AQuestActor::BeginPlay()
 		auto* Parent = GetAttachParentActor();
 		if (auto* QuestGiver = Cast<AQuestGiverActor>(Parent))
 		{
-			PreviousQuest->OnQuestCompleted.AddDynamic(QuestGiver, &AQuestGiverActor::HasAvailableQuests);
+			PreviousQuest->OnQuestStatusChanged.AddDynamic(QuestGiver, &AQuestGiverActor::HasAvailableQuests);
 		}
 		
 	}
@@ -57,6 +57,7 @@ void AQuestActor::TakeQuest(AActor* Character)
 		Objective->OnObjectiveCompleted.AddUObject(this, &ThisClass::OnObjectiveCompleted);
 	}
 	bIsTaken = true;
+	OnQuestStatusChanged.Broadcast();
 }
 
 void AQuestActor::OnObjectiveCompleted(UObjective* Objective)
@@ -71,7 +72,7 @@ void AQuestActor::OnObjectiveCompleted(UObjective* Objective)
 		else
 		{
 			bIsCompleted = true;
-			OnQuestCompleted.Broadcast();
+			OnQuestStatusChanged.Broadcast();
 		}
 	}
 	else
@@ -88,11 +89,11 @@ void AQuestActor::OnObjectiveCompleted(UObjective* Objective)
 		if (IncompleteCount == 0)
 		{
 			bIsCompleted = true;
-			OnQuestCompleted.Broadcast();
+			OnQuestStatusChanged.Broadcast();
 		}
 	}
 
-	OnQuestStatusUpdated.Broadcast(this);
+	OnQuestObjectiveStatusChanged.Broadcast(this);
 }
 
 bool AQuestActor::IsAvailable()
