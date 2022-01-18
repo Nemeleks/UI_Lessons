@@ -108,12 +108,7 @@ void AQuestGiverActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (bHasAvailableQuest)
 	{
-		UE_LOG(LogTemp,Warning,TEXT("true"));
 		SinusoidMovement(DeltaTime);
-	}
-	else
-	{
-		UE_LOG(LogTemp,Warning,TEXT("false"));
 	}
 	
 }

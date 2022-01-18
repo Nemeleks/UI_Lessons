@@ -3,18 +3,29 @@
 
 #include "CollectableActor.h"
 
+#include "ResourcesManagerSubsystem.h"
+
 
 // Sets default values
 ACollectableActor::ACollectableActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	OnDestroyed.AddDynamic(this, &ThisClass::OnDestoyingFunc);
+}
+
+void ACollectableActor::OnDestoyingFunc(AActor* Actor)
+{
+	auto ResourcesManager = GetWorld()->GetSubsystem<UResourcesManagerSubsystem>();
+	ResourcesManager->RemoveResourceActor(Actor);
 }
 
 // Called when the game starts or when spawned
 void ACollectableActor::BeginPlay()
 {
 	Super::BeginPlay();
+	auto ResourcesManager = GetWorld()->GetSubsystem<UResourcesManagerSubsystem>();
+	ResourcesManager->AddResourceActor(this, ActorClass);
 	
 }
 

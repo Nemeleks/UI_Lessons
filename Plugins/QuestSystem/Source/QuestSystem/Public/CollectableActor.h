@@ -20,6 +20,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditDefaultsOnly, Category = "ResourceClass")
+	TSubclassOf<ACollectableActor> ActorClass;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -29,4 +32,10 @@ public:
 	{
 		NotifyCollectFinished(this, CollectInstigator);
 	}
+
+	UFUNCTION()
+	void OnDestoyingFunc(AActor* Actor);
 };
+
+
+

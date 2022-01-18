@@ -6,6 +6,7 @@
 #include "CollectableObject.h"
 #include "InteractableObject.h"
 #include "LocationMarker.h"
+#include "ResourcesManagerSubsystem.h"
 #include "ToolBuilderUtil.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -63,16 +64,15 @@ UCollectionObjective::UCollectionObjective()
 void UCollectionObjective::ActivateObjective(AActor* Instigator)
 {
 	Super::ActivateObjective(Instigator);
-	TArray<AActor*> ActorsToCollect;
-//	UGameplayStatics::GetAllActorsWithInterface(GetWorld(), CollectableInterface, ActorsToCollect);
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), CollectableActorClass, ActorsToCollect);
-	//CollectionNeeded = ActorsToCollect.Num();
+
+	auto ResourcesManager = GetWorld()->GetSubsystem<UResourcesManagerSubsystem>();
+	TArray<AActor*> ActorsToCollect = ResourcesManager->FindActorsOfClass(CollectableActorClass) ;
+//	UGameplayStatics::GetAllActorsOfClass(GetWorld(), CollectableActorClass, ActorsToCollect);
 
 	for	(int32 i = 0; i < ActorsToCollect.Num(); i++)
 	{
 		if (ICollectableObject* InteractTarget = Cast<ICollectableObject>(ActorsToCollect[i]))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Activation") );
 			InteractTarget->OnCollectionFinished.AddLambda([this, Instigator](AActor* Object, AActor* InteractInstigator)
 			{
 				CollectionCount++;
