@@ -7,6 +7,7 @@
 
 class FToolBarBuilder;
 class FMenuBuilder;
+class AQuestActor;
 
 class FStandaloneWindowEditorToolModule : public IModuleInterface
 {
@@ -24,9 +25,17 @@ public:
 	
 	/** This function will be bound to Command (by default it will bring up plugin window) */
 	void PluginButtonClicked();
-	
-private:
 
+
+
+	/* The list of strings */
+	TArray<AQuestActor*> Items;
+
+	/* The actual UI list */
+	TSharedPtr< SListView< AQuestActor* > > ListViewWidget;
+
+	//TSharedRef<class SQuestList> QuestList;
+	
 	void RegisterMenus();
 
 	void AddToolbarExtension(FToolBarBuilder& Builder);
@@ -36,4 +45,6 @@ private:
 
 private:
 	TSharedPtr<class FUICommandList> PluginCommands;
+
+
 };

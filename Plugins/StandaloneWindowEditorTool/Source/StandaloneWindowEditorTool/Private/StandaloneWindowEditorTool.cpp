@@ -9,10 +9,12 @@
 #include "LevelEditor.h"
 #include "QuestActor.h"
 #include "Widgets/Docking/SDockTab.h"
-#include "Widgets/Text/STextBlock.h"
 #include "ToolMenus.h"
 #include "Engine/Selection.h"
 #include "Microsoft/AllowMicrosoftPlatformTypes.h"
+#include "StandaloneWindowEditorTool/Public/QuestList.h"
+#include "Widgets/Layout/SHeader.h"
+#include "Widgets/Layout/SScrollBox.h"
 #include "Widgets/Layout/SUniformGridPanel.h"
 
 static const FName StandaloneWindowEditorToolTabName("StandaloneWindowEditorTool");
@@ -25,6 +27,7 @@ void FStandaloneWindowEditorToolModule::StartupModule()
 	{
 		FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 		PropertyModule.RegisterCustomClassLayout("BaseEditorTool", FOnGetDetailCustomizationInstance::CreateStatic(&FBaseToolEditorCustomization::MakeInstance));
+		
 	}
 	FStandaloneWindowEditorToolStyle::Initialize();
 	FStandaloneWindowEditorToolStyle::ReloadTextures();
@@ -46,6 +49,7 @@ void FStandaloneWindowEditorToolModule::StartupModule()
 
 		LevelEditorModule.GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 	}
+	
 	{
 		TSharedPtr<FExtender> ToolbarExtender = MakeShareable(new FExtender());
 		ToolbarExtender->AddToolBarExtension("Settings", EExtensionHook::After, PluginCommands,
@@ -130,68 +134,16 @@ TSharedRef<SDockTab> FStandaloneWindowEditorToolModule::OnSpawnPluginTab(const F
 	// 	FText::FromString(TEXT("StandaloneWindowEditorTool.cpp"))
 	// 	);
 
-	FText WidgetText = FText::FromString("Move Selected Actors");
+	FText WidgetText = FText::FromString("Add New List Item");
 	FText WT = FText::FromString("TestButton");
 	FText RightText = FText::FromString("Right Text Panel");
 	TSharedRef<SHorizontalBox> HorizontalBox = SNew(SHorizontalBox);
 	TSharedRef<SUniformGridPanel> UniformGridPanel = SNew(SUniformGridPanel);
-	UniformGridPanel->AddSlot(0,0)
-	[
-		SNew(SButton)
-		.Text(FText::FromString("FirstButton"))
-		.OnClicked_Lambda([UniformGridPanel]()
-		{
-			if (GEditor)
-			{
-				TArray<AQuestActor*> Quests;
-				for (auto Iter = GEditor->GetSelectedActorIterator(); Iter; ++ Iter)
-				{
-					auto Quest = Cast<AQuestActor>(*Iter);
-					if (Quest)
-					{
-						Quests.Add(Quest);
-					}
-				}
-				GEditor->SelectNone(false, true);
-				for	(int32 i = 0; i < Quests.Num(); ++i)
-				{
-					GEditor->SelectActor(Quests[i],true,true);
-					UniformGridPanel->AddSlot(1,i)
-					[
-						SNew(SButton)
-						.Text(Quests[i]->Name)
-					];
-				}
-			}
-			return FReply::Handled();
-		}
-		)
-	];
-	UniformGridPanel->AddSlot(0,1)
-	[
-		SNew(SButton)
-		.Text(FText::FromString("Second Button"))
-	];
-	HorizontalBox->AddSlot()
-	.HAlign(HAlign_Fill)
-	.VAlign(VAlign_Fill)
-	[
-		UniformGridPanel
-	];
-	HorizontalBox->AddSlot()
-	.HAlign(HAlign_Fill)
-	.VAlign(VAlign_Fill)
-	[
-		SNew(SButton)
-		.Text(FText::FromString("Second Button Right"))
-	];
-	
-	
 
 	return SNew(SDockTab)
 		.TabRole(ETabRole::NomadTab)
 		[
-		HorizontalBox
+			SNew(SQuestList)
 		];
 }
 
