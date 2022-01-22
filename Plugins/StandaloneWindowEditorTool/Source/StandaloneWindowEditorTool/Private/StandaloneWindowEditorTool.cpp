@@ -2,19 +2,14 @@
 
 #include "StandaloneWindowEditorTool.h"
 
-#include "BaseEditorTool.h"
-#include "BaseToolEditorCustomization.h"
 #include "StandaloneWindowEditorToolStyle.h"
 #include "StandaloneWindowEditorToolCommands.h"
 #include "LevelEditor.h"
-#include "QuestActor.h"
 #include "Widgets/Docking/SDockTab.h"
 #include "ToolMenus.h"
-#include "Engine/Selection.h"
 #include "Microsoft/AllowMicrosoftPlatformTypes.h"
-#include "StandaloneWindowEditorTool/Public/QuestList.h"
+#include "StandaloneWindowEditorTool/Public/QuestListWidget.h"
 #include "Widgets/Layout/SHeader.h"
-#include "Widgets/Layout/SScrollBox.h"
 #include "Widgets/Layout/SUniformGridPanel.h"
 
 static const FName StandaloneWindowEditorToolTabName("StandaloneWindowEditorTool");
@@ -24,11 +19,7 @@ static const FName StandaloneWindowEditorToolTabName("StandaloneWindowEditorTool
 void FStandaloneWindowEditorToolModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
-	{
-		FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
-		PropertyModule.RegisterCustomClassLayout("BaseEditorTool", FOnGetDetailCustomizationInstance::CreateStatic(&FBaseToolEditorCustomization::MakeInstance));
-		
-	}
+
 	FStandaloneWindowEditorToolStyle::Initialize();
 	FStandaloneWindowEditorToolStyle::ReloadTextures();
 
@@ -81,50 +72,6 @@ void FStandaloneWindowEditorToolModule::ShutdownModule()
 	FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(StandaloneWindowEditorToolTabName);
 }
 
-void FStandaloneWindowEditorToolModule::TriggerTool(UClass* ToolClass)
-{
-	UBaseEditorTool* ToolInstance = NewObject<UBaseEditorTool>(GetTransientPackage(), ToolClass);
-	ToolInstance->AddToRoot();
-
-	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
-
-	TArray<UObject*> ObjectsToView;
-	ObjectsToView.Add(ToolInstance);
-	TSharedRef<SWindow> Window = PropertyModule.CreateFloatingDetailsView(ObjectsToView, false);
-
-	Window->SetOnWindowClosed(FOnWindowClosed::CreateStatic(&FStandaloneWindowEditorToolModule::OnToolWindowClosed, ToolInstance));
-}
-
-void FStandaloneWindowEditorToolModule::CreateToolListMenu(FMenuBuilder& MenuBuilder)
-{
-	for (TObjectIterator<UClass> ClassIt; ClassIt; ++ClassIt)
-	{
-		UClass* Class = *ClassIt;
-		if (!Class->HasAnyClassFlags(CLASS_Deprecated) | (CLASS_Abstract))
-		{
-			if (Class->IsChildOf(UBaseEditorTool::StaticClass()))
-			{
-				FString FriendlyName = Class->GetName();
-				FText MenuDescription = FText::Format(LOCTEXT("ToolMenuDescription","{0}"), FText::FromString(FriendlyName));
-				FText MenuTooltip = FText::Format(LOCTEXT("ToolMenuTooltip", "Execute the {0} tool"), FText::FromString(FriendlyName));
-
-				FUIAction Action(FExecuteAction::CreateStatic(&FStandaloneWindowEditorToolModule::TriggerTool, Class));
-
-				MenuBuilder.AddMenuEntry(
-				MenuDescription,
-				MenuTooltip,
-				FSlateIcon(),
-				Action
-				);
-			}
-		}
-	}
-}
-
-void FStandaloneWindowEditorToolModule::OnToolWindowClosed(const TSharedRef<SWindow>& Window, UBaseEditorTool* Instance)
-{
-	Instance->RemoveFromRoot();
-}
 
 TSharedRef<SDockTab> FStandaloneWindowEditorToolModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {

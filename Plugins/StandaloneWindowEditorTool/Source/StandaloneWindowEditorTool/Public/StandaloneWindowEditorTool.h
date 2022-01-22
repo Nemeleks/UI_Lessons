@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Modules/ModuleManager.h"
+
 
 class FToolBarBuilder;
 class FMenuBuilder;
@@ -16,10 +16,6 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
-
-	static void TriggerTool(UClass* ToolClass);
-	static void CreateToolListMenu(FMenuBuilder& MenuBuilder);
-	static void OnToolWindowClosed(const TSharedRef<SWindow>& Window, class UBaseEditorTool* Instance);
 
 	TSharedPtr<FUICommandList> CommandList;
 	

@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "StandaloneWindowEditorTool/Public/QuestList.h"
+#include "StandaloneWindowEditorTool/Public/QuestListWidget.h"
 
 #include "ISinglePropertyView.h"
 #include "QuestActor.h"
@@ -103,11 +103,6 @@ FReply SQuestList::OnButtonPressed()
 	}
 	QuestListView->RequestListRefresh();
 	return FReply::Handled();
-}
-
-void SQuestList::EditQuestPressed()
-{
-	
 }
 
 TSharedRef<ITableRow> SQuestList::OnGenerateWidgetForModuleListView(TSharedPtr< FQuestListItem > InItem, const TSharedRef<STableViewBase>& OwnerTable)

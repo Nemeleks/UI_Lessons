@@ -42,28 +42,20 @@ public:
 
 	TSharedRef<ITableRow> OnGenerateWidgetForModuleListView(TSharedPtr< FQuestListItem > InItem, const TSharedRef<STableViewBase>& OwnerTable);
 
-	/**
-	 * Called by the engine's module manager when a module is loaded, unloaded, or the list of known
-	 * modules has changed
-	 */
+
 	void OnModulesChanged( FName ModuleThatChanged, EModuleChangeReason ReasonForChange );
 
-	/**
-	 * Updates our module list items
-	 */
+
 	void UpdateModuleListItems();
 
-	/**
-	 *  module list item filter 
-	 */
+
 	void OnFilterTextChanged(const FText& InFilterText);
 
 	FReply OnButtonPressed();
-	TArray<AQuestActor> Quests;
+	TArray<AQuestActor*> Quests;
 
-	//TSharedPtr<FQuestListItem> Item;
 
-	void EditQuestPressed();
+
 
 private:
 
