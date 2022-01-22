@@ -43,9 +43,9 @@ const FVector2D Icon40x40(40.0f, 40.0f);
 TSharedRef< FSlateStyleSet > FStandaloneWindowEditorToolStyle::Create()
 {
 	TSharedRef< FSlateStyleSet > Style = MakeShareable(new FSlateStyleSet("StandaloneWindowEditorToolStyle"));
-	Style->SetContentRoot(IPluginManager::Get().FindPlugin("StandaloneWindowEditorTool")->GetBaseDir() / TEXT("Resources"));
+	Style->SetContentRoot(IPluginManager::Get().FindPlugin("QuestSystem")->GetBaseDir() / TEXT("Resources"));
 
-	Style->Set("StandaloneWindowEditorTool.OpenPluginWindow", new IMAGE_BRUSH(TEXT("ButtonIcon_40x"), Icon40x40));
+	Style->Set("StandaloneWindowEditorTool.OpenPluginWindow", new IMAGE_BRUSH(TEXT("QuestEditor"), Icon40x40));
 
 	return Style;
 }

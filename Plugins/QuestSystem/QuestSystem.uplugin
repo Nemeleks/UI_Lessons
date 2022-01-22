@@ -19,6 +19,11 @@
 			"Name": "QuestSystem",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "StandaloneWindowEditorTool",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
 		}
 	]
 }

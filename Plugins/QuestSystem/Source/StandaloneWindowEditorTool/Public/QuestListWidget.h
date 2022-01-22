@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
-#include "QuestList.generated.h"
+//#include "QuestList.generated.h"
 
 /**
  * 

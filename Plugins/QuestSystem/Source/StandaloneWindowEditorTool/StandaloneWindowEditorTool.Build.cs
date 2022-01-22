@@ -42,10 +42,10 @@ public class StandaloneWindowEditorTool : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"QuestSystem",
+				"UMG",
 				"LevelEditor",
-				"PropertyEditor"
-				
+				"PropertyEditor", "QuestSystem"
+
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
