@@ -21,10 +21,9 @@ void SQuestList::Construct(const SQuestList::FArguments& InArgs)
 			.Text(FText::FromString("Show All Quests"))
 			.OnClicked(this, &SQuestList::OnButtonPressed)	
 		]
-			// List of modules
-			+ SVerticalBox::Slot()
-				//.FillHeight( 1.0f )		// We want the list to stretch vertically to fill up the user-resizable space
-			[
+			
+		+ SVerticalBox::Slot()
+		[
 				SAssignNew( QuestListView, SQuestListView )
 					.ItemHeight( 24 )
 					.ListItemsSource( &QuestListItems )
@@ -47,8 +46,8 @@ void SQuestList::Construct(const SQuestList::FArguments& InArgs)
 						+SHeaderRow::Column("PreviousQuest")
 						.DefaultLabel(NSLOCTEXT("QuestList", "PreviousQuest", "PreviousQuest"))
 						.HeaderContentPadding(FMargin(2.f))
-						+SHeaderRow::Column("EditQuest")
-						.DefaultLabel(NSLOCTEXT("QuestList", "EditQuest", "EditQuest"))
+						+SHeaderRow::Column("Objectives")
+						.DefaultLabel(NSLOCTEXT("QuestList", "Objectives", "Objectives"))
 						.HeaderContentPadding(FMargin(2.f))
 						)
 			]
@@ -134,74 +133,91 @@ TSharedRef<ITableRow> SQuestList::OnGenerateWidgetForModuleListView(TSharedPtr< 
 		{
 			FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 			FSinglePropertyParams Params;
-			auto a = PropertyModule.CreateSingleProperty(Quest, "Properties", Params);
+			auto a = PropertyModule.CreateSingleProperty(Quest, "Name", Params);
+			
 			
 			return FReply::Handled();
 		}
 
 		TSharedRef<SWidget> GenerateWidgetForColumn( const FName& ColumnName )
 		{
+			FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+			FSinglePropertyParams Params;
+			
 			
 			if ( ColumnName == "QuestName" )
 			{
+				auto NamePropertyWidget = PropertyModule.CreateSingleProperty(Item->QuestPtr, "Name", Params);
 				return
-					SNew( STextBlock )
-					.Text( Item->QuestName)
-					.Margin(1.f);
+					// SNew( STextBlock )
+					// .Text( Item->QuestName)
+					// .Margin(1.f);
+				NamePropertyWidget->AsShared();
 			}
 			else if ( ColumnName == "QuestDescription" )
 			{
+				auto DescriptionPropertyWidget = PropertyModule.CreateSingleProperty(Item->QuestPtr, "Description", Params);
 				return 
-				SNew( STextBlock )
-				//.Text(Item->QuestDescription)
-				.Margin(1.f)
-				.Text(Item->QuestDescription)
-				.AutoWrapText(true);
+				// SNew( STextBlock )
+				// //.Text(Item->QuestDescription)
+				// .Margin(1.f)
+				// .Text(Item->QuestDescription)
+				// .AutoWrapText(true);
+				DescriptionPropertyWidget->AsShared();
 			}
 			else if (ColumnName == "StoryQuest")
 			{
+				auto IsStoryQuestPropertyWidget = PropertyModule.CreateSingleProperty(Item->QuestPtr, "bIsStoryQuest", Params);
 				return
-				SNew(SCheckBox)
-				.Padding(1.f)
-				.IsChecked_Lambda([this]()
-				{
-					return Item->bIsStoryQuest ? ECheckBoxState::Checked : ECheckBoxState::Unchecked;
-				});
+				// SNew(SCheckBox)
+				// .Padding(1.f)
+				// .IsChecked_Lambda([this]()
+				// {
+				// 	return Item->bIsStoryQuest ? ECheckBoxState::Checked : ECheckBoxState::Unchecked;
+				// });
+				IsStoryQuestPropertyWidget->AsShared();
 			}
 			else if (ColumnName == "KeepObjectivesOrder")
 			{
+				auto KeepObjectivesOrderPropertyWidget = PropertyModule.CreateSingleProperty(Item->QuestPtr, "bKeepObjectivesOrder", Params);
 				return
-				SNew(SCheckBox)
-				.Padding(1.f)
-				.IsChecked_Lambda([this]()
-				{
-					return Item->bKeepObjectivesOrder ? ECheckBoxState::Checked : ECheckBoxState::Unchecked;
-				});
+				// SNew(SCheckBox)
+				// .Padding(1.f)
+				// .IsChecked_Lambda([this]()
+				// {
+				// 	return Item->bKeepObjectivesOrder ? ECheckBoxState::Checked : ECheckBoxState::Unchecked;
+				// });
+				KeepObjectivesOrderPropertyWidget->AsShared();
 			}
 			else if (ColumnName == "PreviousQuest")
 			{
-				if (Item->PreviousQuest)
-				{
-					return
-					SNew(STextBlock)
-					.Margin(1.f)
-					.Text(Item->PreviousQuest->Name);
-				}
-				else
-				{
-					return
-					SNew(STextBlock)
-					.Margin(1.f)
-					.Text(FText::FromString("None"));
-				}
-			}
-			else if (ColumnName == "EditQuest")
-			{
+				// if (Item->PreviousQuest)
+				// {
+				// 	return
+				// 	SNew(STextBlock)
+				// 	.Margin(1.f)
+				// 	.Text(Item->PreviousQuest->Name);
+				// }
+				// else
+				// {
+				// 	return
+				// 	SNew(STextBlock)
+				// 	.Margin(1.f)
+				// 	.Text(FText::FromString("None"));
+				// }
+				auto PreviousQuestPropertyWidget = PropertyModule.CreateSingleProperty(Item->QuestPtr, "PreviousQuest", Params);
 				return
-					SNew(SButton)
-					.ContentPadding(1.f)
-					.Text(FText::FromString("Edit"))
-					.OnClicked(this, &SQuestItemWidget::EditButtonPressed, Item->QuestPtr);
+				PreviousQuestPropertyWidget->AsShared();
+			}
+			else if (ColumnName == "Objectives")
+			{
+				auto ObjectivesPropertyWidget = PropertyModule.CreateSingleProperty(Item->QuestPtr, "Objectives", Params);
+				return
+					// SNew(SButton)
+					// .ContentPadding(1.f)
+					// .Text(FText::FromString("Edit"))
+					// .OnClicked(this, &SQuestItemWidget::EditButtonPressed, Item->QuestPtr);
+				ObjectivesPropertyWidget->AsShared();
 			}
 				
 			else
