@@ -6,7 +6,7 @@
 
 void FStandaloneWindowEditorToolCommands::RegisterCommands()
 {
-	UI_COMMAND(OpenPluginWindow, "StandaloneWindowEditorTool", "Bring up StandaloneWindowEditorTool window", EUserInterfaceActionType::Button, FInputChord() /*FInputGesture() Depricated*/);
+	UI_COMMAND(OpenPluginWindow, "QuestEditorTool", "Bring up QuestEditorTool window", EUserInterfaceActionType::Button, FInputChord() /*FInputGesture() Depricated*/);
 }
 
 #undef LOCTEXT_NAMESPACE

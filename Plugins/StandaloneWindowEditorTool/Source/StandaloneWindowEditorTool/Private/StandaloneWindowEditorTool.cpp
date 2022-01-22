@@ -10,7 +10,6 @@
 #include "Microsoft/AllowMicrosoftPlatformTypes.h"
 #include "StandaloneWindowEditorTool/Public/QuestListWidget.h"
 #include "Widgets/Layout/SHeader.h"
-#include "Widgets/Layout/SUniformGridPanel.h"
 
 static const FName StandaloneWindowEditorToolTabName("StandaloneWindowEditorTool");
 
@@ -32,28 +31,28 @@ void FStandaloneWindowEditorToolModule::StartupModule()
 		FExecuteAction::CreateRaw(this, &FStandaloneWindowEditorToolModule::PluginButtonClicked),
 		FCanExecuteAction());
 
-	FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
-	{
-		TSharedPtr<FExtender> MenuExtender = MakeShareable(new FExtender());
-		MenuExtender->AddMenuExtension("WindowLayout", EExtensionHook::After, PluginCommands,
-			FMenuExtensionDelegate::CreateRaw(this, &FStandaloneWindowEditorToolModule::AddMenuExtension));
-
-		LevelEditorModule.GetMenuExtensibilityManager()->AddExtender(MenuExtender);
-	}
-	
-	{
-		TSharedPtr<FExtender> ToolbarExtender = MakeShareable(new FExtender());
-		ToolbarExtender->AddToolBarExtension("Settings", EExtensionHook::After, PluginCommands,
-			FToolBarExtensionDelegate::CreateRaw(this, &FStandaloneWindowEditorToolModule::AddToolbarExtension));
-
-		LevelEditorModule.GetToolBarExtensibilityManager()->AddExtender(ToolbarExtender);
-	}
-
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FStandaloneWindowEditorToolModule::RegisterMenus));
 	
 	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(StandaloneWindowEditorToolTabName, FOnSpawnTab::CreateRaw(this, &FStandaloneWindowEditorToolModule::OnSpawnPluginTab))
-		.SetDisplayName(LOCTEXT("FStandaloneWindowEditorToolTabTitle", "StandaloneWindowEditorTool"))
+		.SetDisplayName(LOCTEXT("FStandaloneWindowEditorToolTabTitle", "QuestEditorTool"))
 		.SetMenuType(ETabSpawnerMenuType::Hidden);
+
+	//FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
+	// {
+	// 	TSharedPtr<FExtender> MenuExtender = MakeShareable(new FExtender());
+	// 	MenuExtender->AddMenuExtension("WindowLayout", EExtensionHook::After, PluginCommands,
+	// 		FMenuExtensionDelegate::CreateRaw(this, &FStandaloneWindowEditorToolModule::AddMenuExtension));
+	//
+	// 	LevelEditorModule.GetMenuExtensibilityManager()->AddExtender(MenuExtender);
+	// }
+	
+	// {
+	// 	TSharedPtr<FExtender> ToolbarExtender = MakeShareable(new FExtender());
+	// 	ToolbarExtender->AddToolBarExtension("Settings", EExtensionHook::After, PluginCommands,
+	// 		FToolBarExtensionDelegate::CreateRaw(this, &FStandaloneWindowEditorToolModule::AddToolbarExtension));
+	//
+	// 	LevelEditorModule.GetToolBarExtensibilityManager()->AddExtender(ToolbarExtender);
+	// }
 }
 
 void FStandaloneWindowEditorToolModule::ShutdownModule()
@@ -75,17 +74,6 @@ void FStandaloneWindowEditorToolModule::ShutdownModule()
 
 TSharedRef<SDockTab> FStandaloneWindowEditorToolModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
-	// FText WidgetText = FText::Format(
-	// 	LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
-	// 	FText::FromString(TEXT("FStandaloneWindowEditorToolModule::OnSpawnPluginTab")),
-	// 	FText::FromString(TEXT("StandaloneWindowEditorTool.cpp"))
-	// 	);
-
-	FText WidgetText = FText::FromString("Add New List Item");
-	FText WT = FText::FromString("TestButton");
-	FText RightText = FText::FromString("Right Text Panel");
-	TSharedRef<SHorizontalBox> HorizontalBox = SNew(SHorizontalBox);
-	TSharedRef<SUniformGridPanel> UniformGridPanel = SNew(SUniformGridPanel);
 
 	return SNew(SDockTab)
 		.TabRole(ETabRole::NomadTab)
