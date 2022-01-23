@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class QuestSystem : ModuleRules
+public class QuestEditorMode : ModuleRules
 {
-	public QuestSystem(ReadOnlyTargetRules Target) : base(Target)
+	public QuestEditorMode(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
@@ -38,12 +38,13 @@ public class QuestSystem : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"UMG",
-				"ClassViewer",
-				 "InputCore",
-				 "UnrealEd",
-				 "LevelEditor",
-				"EditorSubsystem"
+				"InputCore",
+				"UnrealEd",
+				"LevelEditor",
+				"QuestSystem",
+				//"UMG",
+				//"ClassViewer",
+				
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

@@ -3,6 +3,7 @@
 
 #include "CollectableActor.h"
 
+#include "NPCEditorSubsystem.h"
 #include "ResourcesManagerSubsystem.h"
 
 
@@ -12,6 +13,16 @@ ACollectableActor::ACollectableActor()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	OnDestroyed.AddDynamic(this, &ThisClass::OnDestoyingFunc);
+
+	if (GEditor)
+	{
+		auto Subsystem = GEditor->GetEditorSubsystem<UNPCEditorSubsystem>();
+		if (Subsystem)
+		{
+			Subsystem->AddResourceActor(this, ActorClass);
+		}
+	}
+
 }
 
 void ACollectableActor::OnDestoyingFunc(AActor* Actor)

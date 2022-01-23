@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Subsystems/Subsystem.h"
 #include "ResourcesManagerSubsystem.generated.h"
 
 /**
@@ -17,6 +16,8 @@ class QUESTSYSTEM_API UResourcesManagerSubsystem : public UWorldSubsystem
 private:
 	UPROPERTY()
 	TMap<AActor*,TSubclassOf<AActor>> Actors;
+
+	
 	
 public:
 	
@@ -25,5 +26,7 @@ public:
 	TArray<AActor*> FindActorsOfClass(TSubclassOf<AActor> ActorClass);
 
 	void RemoveResourceActor(AActor* Actor);
+
+	
 	
 };

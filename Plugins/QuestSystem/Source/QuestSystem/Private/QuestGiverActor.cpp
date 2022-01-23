@@ -3,8 +3,11 @@
 
 #include "QuestGiverActor.h"
 
+#include "Editor.h"
+#include "NPCEditorSubsystem.h"
 #include "QuestDialog.h"
 #include "QuestListComponent.h"
+#include "ResourcesManagerSubsystem.h"
 
 
 // Sets default values
@@ -24,6 +27,15 @@ AQuestGiverActor::AQuestGiverActor()
     	
 	StaticMeshCompletedQuest = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComplitedQuest"));
 	StaticMeshCompletedQuest->SetupAttachment(StaticMeshChar);
+
+	if (GEditor)
+	{
+		auto Subsystem  = GEditor->GetEditorSubsystem<UNPCEditorSubsystem>();
+		if (Subsystem)
+		{
+			Subsystem->AddQuestGiverActor(this);
+		}
+	}
 	
 }
 
