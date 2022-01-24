@@ -24,6 +24,11 @@
 			"Name": "StandaloneWindowEditorTool",
 			"Type": "Editor",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "QuestEditorMode",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
 		}
 	]
 }
