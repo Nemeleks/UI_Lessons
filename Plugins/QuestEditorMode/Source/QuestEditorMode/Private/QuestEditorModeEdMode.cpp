@@ -53,7 +53,7 @@ void FQuestEditorModeEdMode::Render(const FSceneView* View, FViewport* Viewport,
 		DrawWireBox(
 		PDI,
 		BoundedActor->GetComponentsBoundingBox(true),
-		FColor::Yellow,
+		BaseBoxColor,
 		1
 		);
 	}
