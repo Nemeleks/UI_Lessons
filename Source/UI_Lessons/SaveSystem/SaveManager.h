@@ -34,6 +34,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SaveGame(const FString& SlotName);
 
+	USaveGameInfo* GetCurrentSave() const {return  CurrentSave;}
+
 protected:
 
 	void OnGameLoadFunc(const FString& SlotName, const int32 UserIndex, USaveGame* SaveGame);

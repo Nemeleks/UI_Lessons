@@ -164,6 +164,22 @@ TMap<int32, FInventorySlotInfo> AUILCharacter::SaveInventory() const
 	return Items;
 }
 
+FCharacterInfo AUILCharacter::SaveCharacter()
+{
+	CharacterInfo.Health = Health;
+	CharacterInfo.Ammo = 0;
+	CharacterInfo.Items = SaveInventory();
+
+	return CharacterInfo;
+}
+
+void AUILCharacter::LoadCharacter(FCharacterInfo LoadInfo)
+{
+	LoadInventory(LoadInfo.Items);
+	Health = LoadInfo.Health;
+	//Ammo = LoadInfo.Ammo;
+}
+
 void AUILCharacter::LoadInventory(TMap<int32, FInventorySlotInfo> Inventory)
 {
 	if (LocalInventory)

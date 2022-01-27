@@ -7,6 +7,7 @@
 #include "EquipInterface.h"
 #include "InventoryComponent.h"
 #include "GameFramework/Character.h"
+#include "SaveSystem/SaveGameInfo.h"
 #include "UILCharacter.generated.h"
 
 UCLASS()
@@ -53,9 +54,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "InventoryCharacter")
 	UDataTable* StartInventory;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	float Health = 100.f;
+
 	UStaticMeshComponent* GetEquipComponent(EEquipSlot EquipSlot);
 
 	void OpenCloseInventory();
+
+	FCharacterInfo CharacterInfo;
 
 public:
 	// Called every frame
@@ -68,5 +74,17 @@ public:
 	TMap<int32, FInventorySlotInfo> SaveInventory() const;
 
 	UFUNCTION(BlueprintCallable)
+	FCharacterInfo SaveCharacter();
+
+	UFUNCTION(BlueprintCallable)
+	void LoadCharacter(FCharacterInfo LoadInfo);
+
+	UFUNCTION(BlueprintCallable)
 	void LoadInventory(TMap<int32, FInventorySlotInfo> Inventory);
+
+	UFUNCTION(BlueprintCallable)
+	void SetHealth(float NewHealth) {Health = NewHealth;}
+
+	UFUNCTION(BlueprintCallable)
+	float GetHealth() const {return Health;}
 };

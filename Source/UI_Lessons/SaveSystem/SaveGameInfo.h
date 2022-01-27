@@ -23,6 +23,22 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	TMap<int32, FInventorySlotInfo> Items;
 };
+
+USTRUCT(BlueprintType)
+struct FEnemyInfo
+{
+
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite)
+	float Health;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 Ammo;
+	
+};
+
 UCLASS()
 class UI_LESSONS_API USaveGameInfo : public USaveGame
 {
@@ -34,6 +50,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	FCharacterInfo CharInfo;
+
+	UPROPERTY(BlueprintReadWrite)
+	TMap<FString, FEnemyInfo> EnemyInfo;
 
 	
 };
