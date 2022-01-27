@@ -56,8 +56,10 @@ void ALootBox::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 	UE_LOG(LogTemp, Warning, TEXT("BeginOverlap"));
 	if (Player == OtherActor)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Init"));
+
 		InventoryManager->Init(InventoryComponent);
+		UE_LOG(LogTemp, Warning, TEXT("Init"));
+		
 	}
 }
 
