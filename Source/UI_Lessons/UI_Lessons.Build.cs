@@ -20,7 +20,7 @@ public class UI_Lessons : ModuleRules
 		 "DesktopPlatform"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		PrivateDependencyModuleNames.AddRange(new string[] {"QuestSystem", "InventorySystem"});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

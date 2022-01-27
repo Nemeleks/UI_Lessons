@@ -3,7 +3,7 @@
 
 #include "SaveManager.h"
 
-#include "SaveGame.h"
+#include "SaveGameInfo.h"
 #include "Kismet/GameplayStatics.h"
 
 void USaveManager::Init()
