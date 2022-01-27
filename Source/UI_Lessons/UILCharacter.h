@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "QuestList.h"
 #include "EquipInterface.h"
+#include "InventoryComponent.h"
 #include "GameFramework/Character.h"
 #include "UILCharacter.generated.h"
 
@@ -62,4 +63,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	TMap<int32, FInventorySlotInfo> SaveInventory() const;
+	void LoadInventory(TMap<int32, FInventorySlotInfo> Inventory);
 };

@@ -27,4 +27,9 @@ int32 UInventoryComponent::GetMaxItemAmount(int32 SlotIndex, const FInventoryIte
 	return -1;
 }
 
+void UInventoryComponent::ClearInventory()
+{
+	Items.Reset();
+}
+
 

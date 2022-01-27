@@ -32,4 +32,5 @@ public:
 
 	int32 GetItemsNum() const {return Items.Num();}
 	
+	void ClearInventory();
 };

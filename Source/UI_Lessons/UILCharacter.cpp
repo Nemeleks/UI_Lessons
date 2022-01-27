@@ -154,3 +154,26 @@ void AUILCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	}
 }
 
+TMap<int32, FInventorySlotInfo> AUILCharacter::SaveInventory() const
+{
+	TMap<int32, FInventorySlotInfo> Items;
+	if (LocalInventory)
+	{
+		Items = LocalInventory->GetItems();
+	}
+	return Items;
+}
+
+void AUILCharacter::LoadInventory(TMap<int32, FInventorySlotInfo> Inventory)
+{
+	if (LocalInventory)
+	{
+		LocalInventory->ClearInventory();
+
+		for (auto Item : Inventory)
+		{
+			LocalInventory->SetItem(Item.Key,Item.Value);
+		}
+	}
+}
+
