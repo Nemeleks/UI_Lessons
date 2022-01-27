@@ -64,6 +64,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable)
 	TMap<int32, FInventorySlotInfo> SaveInventory() const;
+
+	UFUNCTION(BlueprintCallable)
 	void LoadInventory(TMap<int32, FInventorySlotInfo> Inventory);
 };

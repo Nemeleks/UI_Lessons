@@ -12,9 +12,15 @@ struct FCharacterInfo
 {
 
 	GENERATED_BODY()
-	
+
+public:
+	UPROPERTY(BlueprintReadWrite)
 	float Health;
+
+	UPROPERTY(BlueprintReadWrite)
 	int32 Ammo;
+
+	UPROPERTY(BlueprintReadWrite)
 	TMap<int32, FInventorySlotInfo> Items;
 };
 UCLASS()
@@ -28,4 +34,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	FCharacterInfo CharInfo;
+
+	
 };
