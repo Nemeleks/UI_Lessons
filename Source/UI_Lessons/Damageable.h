@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SaveSystem/SaveGameInfo.h"
+#include "SaveGameInfo.h"
+
 #include "UObject/Interface.h"
 #include "Damageable.generated.h"
 

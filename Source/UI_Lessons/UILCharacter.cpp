@@ -143,6 +143,26 @@ void AUILCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void AUILCharacter::Serialize(FArchive& Ar)
+{
+	Super::Serialize(Ar);
+
+	if (Ar.IsSaveGame())
+	{
+		if (Ar.IsSaving())
+		{
+			Ar << Health;
+			LocalInventory->Serialize(Ar);
+		}
+		else
+		{
+			Ar <<Health;
+		//	LocalInventory->ClearInventory();
+			LocalInventory->Serialize(Ar);
+		}
+	}
+}
+
 // Called to bind functionality to input
 void AUILCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

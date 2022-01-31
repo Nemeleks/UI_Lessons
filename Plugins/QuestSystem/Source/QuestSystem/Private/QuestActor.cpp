@@ -37,6 +37,16 @@ void AQuestActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void AQuestActor::Serialize(FArchive& Ar)
+{
+	Super::Serialize(Ar);
+	if (Ar.IsSaveGame())
+	{
+		Ar << bIsTaken;
+		Ar << bIsCompleted;
+	}
+}
+
 void AQuestActor::TakeQuest(AActor* Character)
 {
 	if (bIsTaken)

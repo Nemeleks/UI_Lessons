@@ -7,7 +7,7 @@
 #include "EquipInterface.h"
 #include "InventoryComponent.h"
 #include "GameFramework/Character.h"
-#include "SaveSystem/SaveGameInfo.h"
+#include "SaveGameInfo.h"
 #include "UILCharacter.generated.h"
 
 UCLASS()
@@ -66,6 +66,8 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void Serialize(FArchive& Ar) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

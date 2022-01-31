@@ -3,7 +3,7 @@
 
 #include "EnemyActor.h"
 
-#include "SaveSystem/SaveActorsSubsystem.h"
+#include "SaveActorsSubsystem.h"
 
 
 // Sets default values
@@ -16,13 +16,23 @@ AEnemyActor::AEnemyActor()
 	Mesh->SetupAttachment(RootComponent);
 }
 
+void AEnemyActor::Serialize(FArchive& Ar)
+{
+	Super::Serialize(Ar);
+	if (Ar.IsSaveGame())
+	{
+		Ar << Health;
+		Ar << Ammo;
+	}
+}
+
 // Called when the game starts or when spawned
 void AEnemyActor::BeginPlay()
 {
 	Super::BeginPlay();
 
 	auto Subsystem  = GetWorld()->GetSubsystem<USaveActorsSubsystem>();
-	Subsystem->AddEnemy(GetName(), this);
+	Subsystem->SaveActor(GetName(), this);
 }
 
 // Called every frame

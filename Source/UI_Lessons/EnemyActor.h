@@ -6,7 +6,7 @@
 #include "Damageable.h"
 #include "InteractableObject.h"
 #include "GameFramework/Actor.h"
-#include "SaveSystem/SaveGameInfo.h"
+#include "SaveGameInfo.h"
 #include "EnemyActor.generated.h"
 
 UCLASS()
@@ -17,6 +17,8 @@ class UI_LESSONS_API AEnemyActor : public AActor, public IDamageable, public IIn
 public:
 	// Sets default values for this actor's properties
 	AEnemyActor();
+
+	virtual void Serialize(FArchive& Ar) override;
 
 protected:
 	// Called when the game starts or when spawned
