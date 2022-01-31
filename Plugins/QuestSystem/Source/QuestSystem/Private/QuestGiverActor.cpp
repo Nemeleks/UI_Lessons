@@ -72,6 +72,7 @@ void AQuestGiverActor::Serialize(FArchive& Ar)
 					}
 				}
 			}
+			HasAvailableQuests();
 			
 		}
 		

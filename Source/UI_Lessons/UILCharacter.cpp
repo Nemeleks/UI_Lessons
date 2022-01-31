@@ -126,12 +126,17 @@ UStaticMeshComponent* AUILCharacter::GetEquipComponent(EEquipSlot EquipSlot)
 
 void AUILCharacter::OpenCloseInventory()
 {
+	auto PlayerController = GetWorld()->GetFirstPlayerController();
 	if (LocalInventoryManager->IsInitialized())
 	{
+		UWidgetBlueprintLibrary::SetInputMode_GameOnly(PlayerController);
+		PlayerController->SetShowMouseCursor(false);
 		LocalInventoryManager->DeInit();
 	}
 	else
 	{
+		UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(PlayerController);
+		PlayerController->SetShowMouseCursor(true);
 		LocalInventoryManager->Init(LocalInventory);
 		LocalInventoryManager->InitEquip(EquipInventory);
 	}
@@ -153,12 +158,19 @@ void AUILCharacter::Serialize(FArchive& Ar)
 		{
 			Ar << Health;
 			LocalInventory->Serialize(Ar);
+			QuestListComp->Serialize(Ar);
+		//	FTransform ActorTransform = GetActorTransform();
+		//	Ar << ActorTransform;
+			
 		}
 		else
 		{
 			Ar <<Health;
-		//	LocalInventory->ClearInventory();
 			LocalInventory->Serialize(Ar);
+			QuestListComp->Serialize(Ar);
+		//	FTransform ActorTransform;
+		//	Ar << ActorTransform;
+		//	SetActorTransform(ActorTransform);
 		}
 	}
 }
