@@ -30,6 +30,7 @@ public:
 	UFUNCTION()
 	virtual void Interact_Implementation(AActor* InteractInstigator) {};
 
+	
 	virtual void NotifyInteractionFinished(AActor* InteractObject, AActor* InteractInstigator)
 	{
 		OnInteractionFinished.Broadcast(InteractObject, InteractInstigator);

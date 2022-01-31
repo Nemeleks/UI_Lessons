@@ -7,7 +7,8 @@
 #include "NPCEditorSubsystem.h"
 #include "QuestDialog.h"
 #include "QuestListComponent.h"
-#include "ResourcesManagerSubsystem.h"
+#include "SaveActorsSubsystem.h"
+
 
 
 // Sets default values
@@ -39,6 +40,45 @@ AQuestGiverActor::AQuestGiverActor()
 	
 }
 
+void AQuestGiverActor::Serialize(FArchive& Ar)
+{
+	Super::Serialize(Ar);
+
+	if (Ar.IsSaveGame())
+	{
+		if (Ar.IsSaving())
+		{
+			int32 QuestsCount = Quests.Num();
+			Ar << QuestsCount;
+			for (auto Quest : Quests)
+			{
+				Ar << Quest.Key;
+				Quest.Value->Serialize(Ar);
+			}
+		}
+		else
+		{
+			int32 QuestsCount;
+			Ar << QuestsCount;
+			FString Key;
+			for (int32 i = 0; i < QuestsCount; ++i)
+			{
+				Ar << Key;
+				for (auto Quest : Quests)
+				{
+					if (Key == Quest.Key)
+					{
+						Quest.Value->Serialize(Ar);
+					}
+				}
+			}
+			HasAvailableQuests();
+			
+		}
+		
+	}
+}
+
 // Called when the game starts or when spawned
 void AQuestGiverActor::BeginPlay()
 {
@@ -52,8 +92,14 @@ void AQuestGiverActor::BeginPlay()
 			if (Quest)
 			{
 				Quest->OnQuestStatusChanged.AddDynamic(this, &ThisClass::AQuestGiverActor::HasAvailableQuests);
+				Quests.Add(Quest->GetName(), Quest);
 			}
 		}
+	}
+
+	if (auto Subsystem = GetWorld()->GetSubsystem<USaveActorsSubsystem>())
+	{
+		Subsystem->SaveActor(GetName(), this);
 	}
 
 	if (StaticMeshAvailableQuest)

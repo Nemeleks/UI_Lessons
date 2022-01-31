@@ -34,6 +34,7 @@ public:
 	void SetActiveQuest(AQuestActor* Quest);
 
 	FOnActiveQuestChanged OnActiveQuestChanged;
+	virtual void Serialize(FArchive& Ar) override;
 
 protected:
 

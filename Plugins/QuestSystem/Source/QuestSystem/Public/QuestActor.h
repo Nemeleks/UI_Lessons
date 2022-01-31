@@ -28,6 +28,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void Serialize(FArchive& Ar) override;
+
 	UPROPERTY(EditAnywhere)
 	FText Name;
 

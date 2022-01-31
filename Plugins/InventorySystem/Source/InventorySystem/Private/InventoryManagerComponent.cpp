@@ -3,8 +3,6 @@
 
 #include "InventoryManagerComponent.h"
 
-#include <ThirdParty/FreeImage/FreeImage-3.18.0/Dist/FreeImage.h>
-
 #include "EquipInventoryComponent.h"
 #include "InventoryCellWidget.h"
 #include "InventoryWidget.h"
@@ -20,7 +18,7 @@ void UInventoryManagerComponent::Init(UInventoryComponent* InInventoryComponent)
 {
 	LocalInventoryComponent = InInventoryComponent;
 
-	if (LocalInventoryComponent && ItemsData && InventoryWidgetClass)
+	if (LocalInventoryComponent && ItemsData && InventoryWidgetClass && !InventoryWidget)
 	{
 
 		InventoryWidget = CreateWidget<UInventoryWidget>(GetWorld(), InventoryWidgetClass);
@@ -65,10 +63,12 @@ void UInventoryManagerComponent::DeInit()
 	{
 		InventoryWidget->RemoveFromParent();
 		bIsInventoryWidget = false;
+		InventoryWidget = nullptr;
 		if (EquipWidget)
 		{
 			EquipWidget->RemoveFromParent();
 			bIsEquipWidget = false;
+			EquipWidget = nullptr;
 		}
 	}
 	

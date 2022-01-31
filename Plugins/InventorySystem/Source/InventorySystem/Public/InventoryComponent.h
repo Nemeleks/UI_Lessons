@@ -32,4 +32,7 @@ public:
 
 	int32 GetItemsNum() const {return Items.Num();}
 	
+	void ClearInventory();
+
+	virtual void Serialize(FArchive& Ar) override;
 };

@@ -3,11 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractableObject.h"
 #include "GameFramework/Character.h"
 #include "QuestSystemCharacter.generated.h"
 
-class UQuestDialog;
 class UQuestList;
 class UQuestListComponent;
 

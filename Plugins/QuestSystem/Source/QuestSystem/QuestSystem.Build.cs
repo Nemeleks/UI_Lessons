@@ -43,7 +43,8 @@ public class QuestSystem : ModuleRules
 				 "InputCore",
 				 "UnrealEd",
 				 "LevelEditor",
-				"EditorSubsystem"
+				"EditorSubsystem",
+				 "SaveSystem"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
@@ -55,5 +56,6 @@ public class QuestSystem : ModuleRules
 				// ... add any modules that your module loads dynamically here ...
 			}
 			);
+
 	}
 }
